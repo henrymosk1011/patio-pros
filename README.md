@@ -1,17 +1,17 @@
-# Patio Pros — website
+# ProGas Propane — website
 
-Marketing site for **Patio Pros**, patio heater sales, repair, installation and rentals at
-433 W Colorado St, Glendale, CA 91204 · (818) 970-0798.
+Marketing site for **ProGas Propane** (Glendale, CA · (424) 444-9990): propane tank sales and exchange,
+home and business delivery, tank storage cages, and patio heater sales, rentals, leasing and repair.
 
 It's a static site (HTML, CSS and plain JavaScript) with no build step and no frameworks.
 
 ```
 index.html              the page
 assets/css/styles.css   design tokens, layout, all animations
-assets/js/config.js     settings: Google reviews API key, form endpoint, email
-assets/js/main.js       scroll reveals, counters, header, menu, FAQ, form
+assets/js/config.js     settings: phone, email, Google reviews API key, form endpoint
+assets/js/main.js       scroll reveals, counters, header, menu, photo viewer, FAQ, form
 assets/js/reviews.js    live Google reviews (loads only when configured)
-assets/img/favicon.svg  icon / logo mark
+assets/img/             logo, favicons and photos (WebP, resized, EXIF/GPS removed)
 ```
 
 ## Run it locally
@@ -22,10 +22,28 @@ Open `index.html` in a browser, or serve the folder:
 npx serve .
 ```
 
-## Deploy
+## Hosting
 
-Upload the folder to any static host: Netlify, Vercel, Cloudflare Pages, GitHub Pages or plain shared hosting.
-Nothing needs to be built.
+The site is published with GitHub Pages from this repository
+(Settings → Pages → Deploy from a branch). Every push to the published branch updates the live site.
+To use a custom domain, add it under Settings → Pages, then update the `og:image` URL in `index.html`.
+
+## Images
+
+The logo, service photos and the "Our work" gallery come from the client's previous Webflow site
+(`pro-gas-propane-2`). They were resized into WebP files at several widths, and re-encoding removed the
+camera metadata (including GPS location) from the phone photos.
+
+| Folder | Contents |
+| ------ | -------- |
+| `brand/` | Logo (from "Pro-Gas Logo WHITE.png"), favicons, social share image |
+| `hero/` | Night patio with heaters (IMG_5138) |
+| `services/` | The seven service photos used on the old site |
+| `work/` | Eight portfolio photos from the old site's Photos collection |
+| `feature/` | Heater flame, string-light patio (IMG_1555), burner flame, service-area map |
+
+To add a gallery photo, export it at 640, 1280 and 1600 px wide as WebP, put it in `assets/img/work/`,
+and copy one of the `<li class="work__item">` blocks in `index.html`. Give it a specific `alt` text.
 
 ## Google reviews
 
@@ -34,46 +52,37 @@ Google reviews (star rating, review count and up to 5 recent reviews):
 
 1. In [Google Cloud Console](https://console.cloud.google.com/), create a project and enable
    **Maps JavaScript API** and **Places API (New)**.
-2. Create an API key. Under *Application restrictions*, choose **Websites** and add the site's domain
-   (for example `patiopros.com/*`). Under *API restrictions*, allow only those two APIs.
+2. Create an API key. Under *Application restrictions*, choose **Websites** and add the site's domain.
+   Under *API restrictions*, allow only those two APIs.
 3. Paste the key into `google.apiKey` in `assets/js/config.js`.
 
-Several businesses are named "Patio Pros", so the site only accepts the Google listing whose phone number
-matches (818) 970-0798. After the first successful load, the browser console prints the listing's
-Place ID. Paste it into `google.placeId` to skip the search on later visits.
-
-`minRating` (default 4) hides lower-rated reviews. Google's API returns at most 5 reviews. The script
-loads only when a visitor scrolls near the Reviews section, so it doesn't slow the first page load.
-Google's [Places API policies](https://developers.google.com/maps/documentation/places/web-service/policies)
-require the attribution and author links the section already shows.
+The site only accepts the Google listing whose phone number matches (424) 444-9990, so reviews from a
+business with a similar name are never shown. After the first successful load, the browser console prints
+the listing's Place ID; paste it into `google.placeId` to skip the search on later visits.
 
 ## Contact form
 
 Set `formEndpoint` in `assets/js/config.js` to any form backend that accepts a POST
-(Formspree, Getform, Basin, or your own endpoint). Until then:
+(Formspree, Getform, Basin, or your own endpoint). Until then, submitting opens the visitor's email app
+addressed to `email`. The form has a hidden honeypot field to filter out spam bots.
 
-- if `email` is set, submitting opens the visitor's email app with the request filled in;
-- otherwise the form thanks the visitor and asks them to call.
+## Accessibility (WCAG 2.2 AA)
 
-The form includes a hidden honeypot field to filter out spam bots.
+The site was built and tested against WCAG 2.2 level AA, the standard used for ADA website compliance:
 
-## Images
+- Automated audit with axe-core 4.10 (WCAG 2.0/2.1/2.2 A and AA rules plus best practices): no violations
+  on desktop, mobile, the open mobile menu and the open photo viewer.
+- Colour contrast checked by hand for text over gradients and photos, which automated tools can't measure.
+- Keyboard: skip link, visible focus ring on every control, logical tab order, and the mobile menu and photo
+  viewer move focus in and return it on close (Escape closes both).
+- Screen readers: landmarks and headings for every section, descriptive alt text for every photo, labelled
+  icon buttons, form errors tied to their fields, and a static copy of animated text and numbers.
+- Motion: a "Pause animations" button stops all looping animation (WCAG 2.2.2), and visitors who turn on
+  "reduce motion" in their system settings get a still page.
+- Works at 320 px wide and at 200% text size without horizontal scrolling, and in Windows high-contrast mode.
 
-The photos are free-license stock images from [Pexels](https://www.pexels.com/license/), loaded from
-Pexels' CDN. They're placeholders until the client has their own photos. Each image sits on a warm
-gradient, so if one fails to load the layout still looks finished.
-
-| Section        | Photo |
-| -------------- | ----- |
-| Hero           | [Illuminated patio of restaurant](https://www.pexels.com/photo/illuminated-patio-of-restaurant-18707634/) |
-| Why us         | [Close-up of a patio heater](https://www.pexels.com/photo/close-up-photography-of-patio-heater-923289/) (Brett Sayles) |
-| Rentals        | [Restaurant patio at night](https://www.pexels.com/photo/restaurant-patio-at-night-18642429/) |
-| Gallery        | [Restaurant patio](https://www.pexels.com/photo/decor-of-restaurant-patio-14726700/), [Patio at night](https://www.pexels.com/photo/patio-with-tables-st-night-12290139/), [String lights](https://www.pexels.com/photo/relaxing-in-outdoor-patio-under-string-lights-29063825/), [Outdoor restaurant](https://www.pexels.com/photo/outdoor-restaurant-chairs-and-tables-9787527/), [Bokeh lights](https://www.pexels.com/photo/shallow-focus-photography-of-string-lights-754263/) |
-| Tune-up banner | [Gas burner flame](https://www.pexels.com/photo/blurred-burner-flame-flames-195029/) |
-
-To swap a photo, replace the Pexels ID in that `<img>`'s `src` and `srcset` in `index.html`. For the
-best performance with the client's own photos, export them as WebP at about 1600–2400px wide, put them
-in `assets/img/`, and point `src`/`srcset` at those files.
+An automated audit can't prove full compliance. A short manual check with a screen reader (VoiceOver or
+NVDA) after content changes is good practice. The footer includes an accessibility contact line.
 
 ## Animation and performance
 
@@ -82,17 +91,14 @@ in `assets/img/`, and point `src`/`srcset` at those files.
 - On-scroll reveals use `IntersectionObserver`, so nothing runs on every scroll event.
 - Parallax, the hero fade-out, the process timeline and the progress bar use CSS scroll-driven animations
   in Chrome, Edge and Safari 26+. Other browsers get a small rAF-throttled fallback.
-- The hero embers and the marquee pause when they're off-screen.
-- `prefers-reduced-motion` turns all motion off.
 - If you add new styles, don't put `overflow: hidden` on any ancestor of a `.parallax` element (it breaks
   scroll timelines). Use `overflow: clip` instead.
 
 ## Confirm with the client
 
-The copy uses only details from public listings for this phone number. Before launch, confirm:
-
-- business hours (not shown on the site yet)
-- an email address for the contact form and footer
-- warranty terms, service area and the services list
-- whether the Facebook page `@patioprosheater` (listed in Pasadena) is theirs — only Instagram `@patiopros` is linked now
-- the logo: the flame-and-heater mark in the header is a placeholder wordmark
+- **Email:** the site uses `info@progaspropane.us` (printed on their tank-cage signage). Their old site
+  listed `info@progaspropane.com`. Confirm which one is real; it's set in `config.js` and `index.html`.
+- **Service area:** the copy follows their service-area map (Ventura County through LA and Orange County to
+  the Inland Empire). Their old site text only mentioned LA and Orange County.
+- **"25+ years":** based on "22+ years of service" on the 2023 site. It counts up from 2001 automatically.
+- **Street address and hours:** not shown, since the old site only listed "Glendale, CA".

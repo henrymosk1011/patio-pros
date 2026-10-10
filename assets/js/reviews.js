@@ -1,5 +1,5 @@
 /*
- * Patio Pros — live Google reviews.
+ * ProGas Propane — live Google reviews.
  * Loads only when an API key is set in config.js, and only once the reviews
  * section is close to the viewport, so it never slows the first paint.
  * Without a key the static "Read our reviews" block stays in place.
@@ -7,7 +7,7 @@
 (() => {
   "use strict";
 
-  const settings = window.PATIO_PROS || {};
+  const settings = window.SITE_CONFIG || {};
   const cfg = settings.google || {};
   const body = document.querySelector("[data-reviews]");
   const summary = document.querySelector("[data-reviews-summary]");
@@ -20,7 +20,7 @@
   const observer = new IntersectionObserver((entries) => {
     if (!entries.some((e) => e.isIntersecting)) return;
     observer.disconnect();
-    load().catch((err) => console.warn("[Patio Pros] Google reviews unavailable:", err.message || err));
+    load().catch((err) => console.warn("[ProGas] Google reviews unavailable:", err.message || err));
   }, { rootMargin: "800px 0px" });
   observer.observe(body);
 
@@ -28,7 +28,7 @@
   function loadMaps() {
     if (window.google && google.maps && google.maps.importLibrary) return Promise.resolve();
     return new Promise((resolve, reject) => {
-      const callback = "__patioProsMapsReady";
+      const callback = "__siteMapsReady";
       window[callback] = () => {
         delete window[callback];
         resolve();
@@ -44,7 +44,7 @@
     });
   }
 
-  // Several businesses share the "Patio Pros" name, so a search result is only
+  // Several businesses can share a similar name, so a search result is only
   // trusted when its phone number matches ours.
   async function findPlace(Place) {
     if (cfg.placeId) return new Place({ id: cfg.placeId });
@@ -60,7 +60,7 @@
     if (!match) throw new Error(`No Google listing for "${cfg.query}" has the phone number ${settings.phone}.`);
 
     console.info(
-      `[Patio Pros] Matched Google listing "${match.displayName}" (${match.formattedAddress}).\n` +
+      `[ProGas] Matched Google listing "${match.displayName}" (${match.formattedAddress}).\n` +
       `Set google.placeId to "${match.id}" in assets/js/config.js to skip this lookup.`
     );
     return match;
@@ -120,6 +120,7 @@
     a.href = href;
     a.target = "_blank";
     a.rel = "noopener";
+    a.appendChild(el("span", "sr-only", " (opens in a new tab)"));
     return a;
   }
 
@@ -231,7 +232,7 @@
       cards.forEach(({ text, more }) => { more.hidden = text.scrollHeight <= text.clientHeight + 2; });
     });
 
-    const reveal = window.patioPros && window.patioPros.observeReveal;
+    const reveal = window.siteUI && window.siteUI.observeReveal;
     if (reveal) cards.forEach(({ card }) => reveal(card));
   }
 })();

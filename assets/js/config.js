@@ -1,10 +1,10 @@
 /*
- * Patio Pros — site settings.
+ * ProGas Propane — site settings.
  * Everything the site owner may need to change lives here.
  */
-window.PATIO_PROS = {
-  phone: "(818) 970-0798",
-  phoneDigits: "8189700798",
+window.SITE_CONFIG = {
+  phone: "(424) 444-9990",
+  phoneDigits: "4244449990",
 
   /*
    * Live Google reviews (Places API).
@@ -14,13 +14,13 @@ window.PATIO_PROS = {
    *
    * placeId is optional. When it is empty the site searches for `query` and only
    * accepts the listing whose phone number matches `phoneDigits`, so reviews from
-   * other businesses named "Patio Pros" are never shown. After the first successful
+   * other businesses with a similar name are never shown. After the first successful
    * load, the browser console prints the Place ID — paste it here to skip the search.
    */
   google: {
     apiKey: "",
     placeId: "",
-    query: "Patio Pros, 433 W Colorado St, Glendale, CA 91204",
+    query: "ProGas Propane, Glendale, CA 91204",
     minRating: 4,   // hide reviews rated below this
     maxReviews: 5,  // Google returns at most 5
   },
@@ -32,5 +32,5 @@ window.PATIO_PROS = {
    * either, asks them to call.
    */
   formEndpoint: "",
-  email: "",
+  email: "info@progaspropane.us", // confirm with the client: their old site listed info@progaspropane.com
 };

@@ -3,33 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Patio Pros | Patio Heater Repair, Sales &amp; Rentals in Glendale, CA</title>
-  <meta name="description" content="Patio Pros sells, installs, repairs and rents propane and natural gas patio heaters in Glendale, CA — serving homes, restaurants and events since 2001. Free pickup and delivery on repairs and rentals. Call (818) 970-0798.">
+  <title>ProGas Propane | Propane Tanks, Delivery &amp; Patio Heaters in Glendale, CA</title>
+  <meta name="description" content="ProGas Propane sells and exchanges propane tanks, delivers to homes and businesses, supplies tank cages, and sells, rents and repairs patio heaters across Southern California. Call (424) 444-9990.">
   <meta name="theme-color" content="#14100d">
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/brand/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/img/brand/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Patio Pros — Patio Heater Repair, Sales &amp; Rentals in Glendale, CA">
-  <meta property="og:description" content="Propane and natural gas patio heater sales, repair, installation and rentals since 2001. Free pickup and delivery on repairs and rentals.">
-  <meta property="og:image" content="https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200">
+  <meta property="og:title" content="ProGas Propane — Propane Tanks, Delivery &amp; Patio Heaters">
+  <meta property="og:description" content="Propane tank sales and exchange, home and business delivery, tank cages, and patio heater sales, rentals and repair.">
+  <meta property="og:image" content="https://henrymosk1011.github.io/patio-pros/assets/img/brand/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="preconnect" href="https://images.pexels.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
   <link rel="preload" as="image" fetchpriority="high"
-        href="https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
-        imagesrcset="https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=960 960w, https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1440 1440w, https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920 1920w, https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=2560 2560w"
+        href="assets/img/hero/patio-heaters-night-1600.webp"
+        imagesrcset="assets/img/hero/patio-heaters-night-960.webp 960w, assets/img/hero/patio-heaters-night-1600.webp 1600w, assets/img/hero/patio-heaters-night-2048.webp 2048w"
         imagesizes="100vw">
   <link rel="stylesheet" href="assets/css/styles.css">
 
   <script>
     document.documentElement.classList.add("js");
-    // Hide any image that fails to load so its warm placeholder shows instead of a broken icon.
-    document.addEventListener("error", function (e) {
-      if (e.target && e.target.tagName === "IMG") e.target.classList.add("is-broken");
-    }, true);
+    try { if (localStorage.getItem("progas-motion") === "paused") document.documentElement.classList.add("motion-paused"); } catch (e) {}
   </script>
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/main.js" defer></script>
@@ -38,30 +36,30 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "name": "Patio Pros",
-    "description": "Patio heater sales, repair, installation, maintenance and rentals for propane and natural gas heaters.",
-    "telephone": "+1-818-970-0798",
-    "foundingDate": "2001",
+    "@type": "LocalBusiness",
+    "name": "ProGas Propane",
+    "description": "Propane tank sales and exchange, propane delivery, tank storage cages, and patio heater sales, rentals, leasing and repair.",
+    "telephone": "+1-424-444-9990",
+    "email": "info@progaspropane.us",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "433 W Colorado St",
       "addressLocality": "Glendale",
       "addressRegion": "CA",
       "postalCode": "91204",
       "addressCountry": "US"
     },
-    "areaServed": ["Glendale, CA", "Los Angeles County, CA"],
-    "sameAs": ["https://www.instagram.com/patiopros/"],
+    "areaServed": ["Los Angeles County, CA", "Orange County, CA", "Ventura County, CA", "San Bernardino County, CA", "Riverside County, CA"],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Patio heater services",
+      "name": "Propane and patio heater services",
       "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Propane tank sales" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Propane tank exchange" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Propane delivery" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Propane tank storage cages" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater sales" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater installation" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater maintenance" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater rentals" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater rentals and leasing" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Patio heater repair" } }
       ]
     }
   }
@@ -71,58 +69,50 @@
   <!-- Icon sprite -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
-    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
     <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
-    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.42l8.7 8.7a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1.25"/></symbol>
-    <symbol id="i-hammer" viewBox="0 0 24 24"><path d="m15 12-8.37 8.37a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.91-1.91A2 2 0 0 1 19 8.17V7l-2.26-2.26a6 6 0 0 0-4.2-1.76L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.17a2 2 0 0 1 1.42.59L18.5 14.5"/></symbol>
-    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
-    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.14 1.58a.5.5 0 0 1 0 .96l-6.14 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></symbol>
-    <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></symbol>
+    <symbol id="i-tank" viewBox="0 0 24 24"><path d="M9 2h6v3H9z"/><path d="M7 7.5C7 6.12 8.12 5 9.5 5h5C15.88 5 17 6.12 17 7.5"/><rect x="5" y="7" width="14" height="13" rx="5"/><path d="M5 13h14"/><path d="M8 20v2M16 20v2"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M16 3l4 4-4 4"/><path d="M20 7H8"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h12"/></symbol>
     <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-cage" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 3v18M12 3v18M16 3v18M3 12h18"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.42l8.7 8.7a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1.25"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
     <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
     <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
-    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></symbol>
     <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.6l2.83 5.94 6.52.83-4.78 4.52 1.2 6.47L12 17.2l-5.77 3.16 1.2-6.47-4.78-4.52 6.52-.83z"/></symbol>
     <symbol id="i-quote" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M9.6 5C5.9 6.3 3.5 9.3 3.5 13.2c0 3.1 1.9 5.3 4.5 5.3 2.3 0 4-1.7 4-3.9 0-2.1-1.5-3.6-3.4-3.6-.4 0-.8.1-1 .2.5-1.9 2.2-3.6 4.4-4.4L9.6 5zm9.5 0c-3.7 1.3-6.1 4.3-6.1 8.2 0 3.1 1.9 5.3 4.5 5.3 2.3 0 4-1.7 4-3.9 0-2.1-1.5-3.6-3.4-3.6-.4 0-.8.1-1 .2.5-1.9 2.2-3.6 4.4-4.4L19.1 5z"/></symbol>
     <symbol id="i-google" viewBox="0 0 48 48"><path fill="#FFC107" stroke="none" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" stroke="none" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" stroke="none" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A11.9 11.9 0 0 1 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" stroke="none" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></symbol>
   </svg>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
   <!-- ============ Header ============ -->
   <header class="site-header" data-header>
     <div class="container header__inner">
-      <a class="brand" href="#top" aria-label="Patio Pros — home">
-        <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
-          <defs>
-            <linearGradient id="brandFlame" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ffc46b"/>
-              <stop offset="1" stop-color="#ff5a1f"/>
-            </linearGradient>
-          </defs>
-          <path d="M5 15.5c3.6-6 10.4-9.3 19-9.3s15.4 3.3 19 9.3H5z" fill="currentColor"/>
-          <rect x="21.75" y="2.5" width="4.5" height="3.6" rx="1.4" fill="currentColor"/>
-          <path class="brand__flame" d="M24 18.5c-4.6 4.4-5.9 7.7-5.9 10.3a5.9 5.9 0 0 0 11.8 0c0-2.6-1.3-5.9-5.9-10.3z" fill="url(#brandFlame)"/>
-          <rect x="22.8" y="35.5" width="2.4" height="8" rx="1.2" fill="currentColor"/>
-          <rect x="15" y="42.6" width="18" height="3.2" rx="1.6" fill="currentColor"/>
-        </svg>
+      <a class="brand" href="#top">
+        <img class="brand__logo" src="assets/img/brand/progas-logo.webp" alt="" width="217" height="132">
         <span class="brand__text">
-          <strong>Patio Pros</strong>
-          <small>Heater Sales · Service · Rentals</small>
+          <strong>ProGas Propane</strong>
+          <small>Propane · Patio Heaters</small>
         </span>
       </a>
 
-      <nav class="nav" aria-label="Primary">
+      <nav class="nav" aria-label="Main">
         <ul>
           <li><a href="#services">Services</a></li>
-          <li><a href="#why">Why us</a></li>
+          <li><a href="#why">Why ProGas</a></li>
+          <li><a href="#work">Our work</a></li>
           <li><a href="#rentals">Rentals</a></li>
           <li><a href="#reviews">Reviews</a></li>
           <li><a href="#faq">FAQ</a></li>
@@ -130,46 +120,46 @@
       </nav>
 
       <div class="header__actions">
-        <a class="header__phone" href="tel:+18189700798">
-          <svg class="icon"><use href="#i-phone"/></svg>
-          <span>(818) 970-0798</span>
+        <a class="header__phone" href="tel:+14244449990" aria-label="Call ProGas Propane at (424) 444-9990">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+          <span aria-hidden="true">(424) 444-9990</span>
         </a>
         <a class="btn btn--primary btn--sm" href="#contact" data-magnetic>Get a quote</a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
-          <span></span><span></span>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="sr-only" data-menu-label>Open menu</span>
+          <span class="menu-toggle__bar" aria-hidden="true"></span><span class="menu-toggle__bar" aria-hidden="true"></span>
         </button>
       </div>
     </div>
   </header>
 
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-    <nav aria-label="Mobile">
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile" hidden>
       <ul>
         <li style="--i:0"><a href="#services">Services</a></li>
-        <li style="--i:1"><a href="#why">Why us</a></li>
-        <li style="--i:2"><a href="#rentals">Rentals</a></li>
-        <li style="--i:3"><a href="#reviews">Reviews</a></li>
-        <li style="--i:4"><a href="#faq">FAQ</a></li>
-        <li style="--i:5"><a href="#contact">Contact</a></li>
+        <li style="--i:1"><a href="#why">Why ProGas</a></li>
+        <li style="--i:2"><a href="#work">Our work</a></li>
+        <li style="--i:3"><a href="#rentals">Rentals</a></li>
+        <li style="--i:4"><a href="#reviews">Reviews</a></li>
+        <li style="--i:5"><a href="#faq">FAQ</a></li>
+        <li style="--i:6"><a href="#contact">Contact</a></li>
       </ul>
-    </nav>
-    <div class="mobile-menu__footer" style="--i:6">
-      <a class="btn btn--primary btn--block" href="tel:+18189700798">
-        <svg class="icon"><use href="#i-phone"/></svg> Call (818) 970-0798
+    <div class="mobile-menu__footer" style="--i:7">
+      <a class="btn btn--primary btn--block" href="tel:+14244449990">
+        <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call (424) 444-9990
       </a>
-      <p>433 W Colorado St, Glendale, CA 91204</p>
+      <p>Glendale, CA · Serving Southern California</p>
     </div>
-  </div>
+  </nav>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
 
     <!-- ============ Hero ============ -->
-    <section class="hero" id="top" data-hero>
+    <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
       <div class="hero__media" aria-hidden="true">
         <img
-          src="https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
-          srcset="https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=960 960w, https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1440 1440w, https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920 1920w, https://images.pexels.com/photos/18707634/pexels-photo-18707634.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=2560 2560w"
-          sizes="100vw" alt="" fetchpriority="high" decoding="async">
+          src="assets/img/hero/patio-heaters-night-1600.webp"
+          srcset="assets/img/hero/patio-heaters-night-960.webp 960w, assets/img/hero/patio-heaters-night-1600.webp 1600w, assets/img/hero/patio-heaters-night-2048.webp 2048w"
+          sizes="100vw" alt="" width="2048" height="1536" fetchpriority="high" decoding="async">
       </div>
       <div class="hero__shade" aria-hidden="true"></div>
       <div class="hero__glow" aria-hidden="true"></div>
@@ -189,335 +179,385 @@
       </div>
 
       <div class="container hero__content">
-        <p class="eyebrow eyebrow--light hero__eyebrow">
-          <span class="pulse-dot" aria-hidden="true"></span> Glendale, CA · Serving since 2001
-        </p>
-        <h1 class="hero__title" data-split style="--d:250ms">Warmth for every <em class="hl">outdoor</em> evening.</h1>
+        <p class="eyebrow eyebrow--light hero__eyebrow">Glendale, CA · Propane &amp; patio heaters</p>
+        <h1 class="hero__title" id="hero-title" data-split style="--d:250ms">Propane and patio heat, <em class="hl">done right.</em></h1>
         <p class="hero__lead">
-          Patio Pros sells, installs, repairs and rents propane and natural gas patio heaters for homes,
-          restaurants and events — with free pickup and delivery on repairs and rentals.
+          ProGas Propane sells and exchanges propane tanks, delivers to homes and businesses, and sells,
+          rents and repairs patio heaters across Southern California.
         </p>
         <div class="hero__cta">
-          <a class="btn btn--primary btn--lg" href="tel:+18189700798" data-magnetic>
-            <svg class="icon"><use href="#i-phone"/></svg> Call (818) 970-0798
+          <a class="btn btn--primary btn--lg" href="tel:+14244449990" data-magnetic>
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call (424) 444-9990
           </a>
           <a class="btn btn--ghost btn--lg" href="#contact" data-magnetic>
-            Request service <svg class="icon"><use href="#i-arrow"/></svg>
+            Request service <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
         </div>
         <ul class="hero__badges" aria-label="Highlights">
-          <li><svg class="icon"><use href="#i-flame"/></svg> Propane &amp; natural gas</li>
-          <li><svg class="icon"><use href="#i-truck"/></svg> Free pickup &amp; delivery</li>
-          <li><svg class="icon"><use href="#i-shield"/></svg> Warranty on new heaters</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-tank"/></svg> Tank sales &amp; exchange</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-truck"/></svg> Home &amp; business delivery</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-flame"/></svg> Heater sales, rentals &amp; repair</li>
         </ul>
       </div>
 
-      <a class="hero__scroll" href="#services" aria-label="Scroll to services"><span></span></a>
+      <button class="motion-toggle" type="button" aria-pressed="false" data-motion-toggle>
+        <svg class="icon motion-toggle__pause" aria-hidden="true"><use href="#i-pause"/></svg>
+        <svg class="icon motion-toggle__play" aria-hidden="true"><use href="#i-play"/></svg>
+        <span>Pause animations</span>
+      </button>
     </section>
 
     <!-- ============ Marquee ============ -->
     <div class="marquee" data-marquee>
       <div class="marquee__track">
-        <ul class="marquee__group">
-          <li>Patio heater repair</li><li>New heater sales</li><li>Installation</li><li>Event rentals</li>
-          <li>Seasonal tune-ups</li><li>Propane</li><li>Natural gas</li><li>Restaurants &amp; cafés</li>
-          <li>Homes &amp; backyards</li><li>Free pickup &amp; delivery</li>
+        <ul class="marquee__group" aria-label="What we do">
+          <li>Propane tank sales</li><li>Tank exchange</li><li>Home &amp; business delivery</li><li>Tank cages</li>
+          <li>Patio heater sales</li><li>Heater rentals &amp; leasing</li><li>Heater repair</li>
+          <li>Restaurants &amp; venues</li><li>Homes &amp; backyards</li>
         </ul>
         <ul class="marquee__group" aria-hidden="true">
-          <li>Patio heater repair</li><li>New heater sales</li><li>Installation</li><li>Event rentals</li>
-          <li>Seasonal tune-ups</li><li>Propane</li><li>Natural gas</li><li>Restaurants &amp; cafés</li>
-          <li>Homes &amp; backyards</li><li>Free pickup &amp; delivery</li>
+          <li>Propane tank sales</li><li>Tank exchange</li><li>Home &amp; business delivery</li><li>Tank cages</li>
+          <li>Patio heater sales</li><li>Heater rentals &amp; leasing</li><li>Heater repair</li>
+          <li>Restaurants &amp; venues</li><li>Homes &amp; backyards</li>
         </ul>
       </div>
     </div>
 
     <!-- ============ Services ============ -->
-    <section class="section section--light services" id="services">
+    <section class="section section--light services" id="services" aria-labelledby="services-title">
       <div class="container">
         <header class="section-head">
           <p class="eyebrow" data-reveal>What we do</p>
-          <h2 data-split>Everything your patio heater needs, <em class="hl">under one roof.</em></h2>
+          <h2 id="services-title" data-split>Everything propane, <em class="hl">one call away.</em></h2>
           <p class="section-head__lead" data-reveal style="--d:200ms">
-            From a heater that won't stay lit to outfitting a full restaurant patio, our team handles
-            sales, service and rentals for propane and natural gas heaters.
+            Fuel, tanks, storage and the heaters that run on them. ProGas handles it all for homeowners,
+            restaurants and businesses.
           </p>
         </header>
 
-        <div class="services__grid">
-          <article class="service card" data-reveal data-spotlight>
-            <div class="service__icon"><svg class="icon"><use href="#i-wrench"/></svg></div>
-            <h3>Repair &amp; diagnostics</h3>
-            <p>Won't light, won't stay lit, weak or uneven flame? We troubleshoot and repair propane and natural gas heaters and get them burning right again.</p>
-            <a class="card__link" href="#contact">Request a repair <svg class="icon"><use href="#i-arrow"/></svg></a>
-          </article>
-          <article class="service card" data-reveal data-spotlight>
-            <div class="service__icon"><svg class="icon"><use href="#i-tag"/></svg></div>
-            <h3>New heater sales</h3>
-            <p>Get help choosing the right heater for your patio, backyard or dining area. Every new heater we sell comes with a warranty.</p>
-            <a class="card__link" href="#contact">Shop heaters <svg class="icon"><use href="#i-arrow"/></svg></a>
-          </article>
-          <article class="service card" data-reveal data-spotlight>
-            <div class="service__icon"><svg class="icon"><use href="#i-hammer"/></svg></div>
-            <h3>Installation</h3>
-            <p>Professional setup for propane and natural gas heaters, so your new heater is safe, secure and ready for its first cool night.</p>
-            <a class="card__link" href="#contact">Plan an install <svg class="icon"><use href="#i-arrow"/></svg></a>
-          </article>
-          <article class="service card" data-reveal data-spotlight>
-            <div class="service__icon"><svg class="icon"><use href="#i-sparkle"/></svg></div>
-            <h3>Maintenance &amp; tune-ups</h3>
-            <p>Seasonal cleaning and tune-ups keep heaters lighting reliably and burning clean — and catch small problems before they cost you a cold night.</p>
-            <a class="card__link" href="#contact">Book a tune-up <svg class="icon"><use href="#i-arrow"/></svg></a>
-          </article>
-          <article class="service card" data-reveal data-spotlight>
-            <div class="service__icon"><svg class="icon"><use href="#i-calendar"/></svg></div>
-            <h3>Heater rentals</h3>
-            <p>Parties, weddings and outdoor events. Rent the heaters you need, with delivery and pickup included at no extra charge.</p>
-            <a class="card__link" href="#rentals">Explore rentals <svg class="icon"><use href="#i-arrow"/></svg></a>
-          </article>
-          <article class="service card" data-reveal data-spotlight>
-            <div class="service__icon"><svg class="icon"><use href="#i-utensils"/></svg></div>
-            <h3>Restaurants &amp; businesses</h3>
-            <p>Keep outdoor seating warm and full all season. We supply and service heaters for restaurants, cafés and commercial patios.</p>
-            <a class="card__link" href="#contact">Talk to us <svg class="icon"><use href="#i-arrow"/></svg></a>
-          </article>
+        <div class="service-group">
+          <h3 class="service-group__title" data-reveal><svg class="icon" aria-hidden="true"><use href="#i-tank"/></svg> Propane</h3>
+          <ul class="services__grid services__grid--4">
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/tank-sales-480.webp" srcset="assets/img/services/tank-sales-480.webp 480w, assets/img/services/tank-sales-726.webp 726w" sizes="(min-width: 1100px) 300px, (min-width: 720px) 50vw, 100vw" alt="A white propane cylinder on a lawn" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-tank"/></svg></span>
+                <h4>Propane tank sales</h4>
+                <p>New propane tanks for homeowners and businesses. Tell us what you're fueling and we'll set you up with the right tank.</p>
+                <a class="card__link" href="#contact">Buy a tank <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/tank-exchange-480.webp" srcset="assets/img/services/tank-exchange-480.webp 480w, assets/img/services/tank-exchange-726.webp 726w" sizes="(min-width: 1100px) 300px, (min-width: 720px) 50vw, 100vw" alt="Two propane cylinders being swapped at an exchange cage" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-swap"/></svg></span>
+                <h4>Tank exchange</h4>
+                <p>Trade your empty tank for a full one, with no waiting around for a refill.</p>
+                <a class="card__link" href="#contact">Exchange a tank <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/delivery-480.webp" srcset="assets/img/services/delivery-480.webp 480w, assets/img/services/delivery-726.webp 726w" sizes="(min-width: 1100px) 300px, (min-width: 720px) 50vw, 100vw" alt="A delivery driver walking from a van to a customer's door" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-truck"/></svg></span>
+                <h4>Home &amp; business delivery</h4>
+                <p>We bring propane to your door, so you never have to haul a heavy tank again.</p>
+                <a class="card__link" href="#contact">Schedule delivery <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/tank-cage-480.webp" srcset="assets/img/services/tank-cage-480.webp 480w, assets/img/services/tank-cage-726.webp 726w" sizes="(min-width: 1100px) 300px, (min-width: 720px) 50vw, 100vw" alt="A locking metal storage cage holding propane cylinders" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-cage"/></svg></span>
+                <h4>Tank storage cages</h4>
+                <p>Secure cages that keep propane cylinders organized and protected at restaurants, stores and job sites.</p>
+                <a class="card__link" href="#contact">Ask about cages <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="service-group">
+          <h3 class="service-group__title" data-reveal><svg class="icon" aria-hidden="true"><use href="#i-flame"/></svg> Patio heaters</h3>
+          <ul class="services__grid services__grid--3">
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/heater-sales-480.webp" srcset="assets/img/services/heater-sales-480.webp 480w, assets/img/services/heater-sales-726.webp 726w" sizes="(min-width: 1100px) 400px, (min-width: 720px) 50vw, 100vw" alt="A lit patio heater glowing outside at night" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-tag"/></svg></span>
+                <h4>Patio heater sales</h4>
+                <p>Find the right heater for your patio, backyard or dining area, and keep it fueled with ProGas.</p>
+                <a class="card__link" href="#contact">Shop heaters <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/heater-rentals-480.webp" srcset="assets/img/services/heater-rentals-480.webp 480w, assets/img/services/heater-rentals-726.webp 726w" sizes="(min-width: 1100px) 400px, (min-width: 720px) 50vw, 100vw" alt="Guests gathered beside a patio heater at an evening event" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-calendar"/></svg></span>
+                <h4>Heater rentals &amp; leasing</h4>
+                <p>Rent heaters for a night or lease them for the season. A favorite for events and restaurant patios.</p>
+                <a class="card__link" href="#rentals">Explore rentals <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+            <li class="service card" data-reveal data-spotlight>
+              <div class="service__media"><img src="assets/img/services/heater-repair-480.webp" srcset="assets/img/services/heater-repair-480.webp 480w, assets/img/services/heater-repair-726.webp 726w" sizes="(min-width: 1100px) 400px, (min-width: 720px) 50vw, 100vw" alt="A technician repairing a gas appliance with hand tools" width="480" height="592" loading="lazy" decoding="async"></div>
+              <div class="service__body">
+                <span class="service__icon" aria-hidden="true"><svg class="icon"><use href="#i-wrench"/></svg></span>
+                <h4>Heater repair</h4>
+                <p>Won't light or won't stay lit? We diagnose and repair propane patio heaters and get them burning right.</p>
+                <a class="card__link" href="#contact">Request a repair <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ============ Why us ============ -->
-    <section class="section section--dark split" id="why">
+    <!-- ============ Why ProGas ============ -->
+    <section class="section section--dark split" id="why" aria-labelledby="why-title">
       <div class="container split__grid">
         <div class="split__media">
           <div class="frame" data-reveal="curtain">
             <div class="parallax">
-              <img
-                src="https://images.pexels.com/photos/923289/pexels-photo-923289.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280"
-                srcset="https://images.pexels.com/photos/923289/pexels-photo-923289.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640 640w, https://images.pexels.com/photos/923289/pexels-photo-923289.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=960 960w, https://images.pexels.com/photos/923289/pexels-photo-923289.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280 1280w"
-                sizes="(min-width: 960px) 46vw, 100vw"
-                alt="A modern stainless steel patio heater outdoors" loading="lazy" decoding="async">
+              <img src="assets/img/feature/heater-flame-1080.webp"
+                   srcset="assets/img/feature/heater-flame-640.webp 640w, assets/img/feature/heater-flame-1080.webp 1080w"
+                   sizes="(min-width: 960px) 46vw, 100vw"
+                   alt="Close-up of a patio heater's burner glowing with blue and orange flames" width="1080" height="1440" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="split__badge" data-reveal="scale" style="--d:500ms">
-            <strong data-count-since="2001" data-suffix="+">25+</strong>
-            <span>years in<br>Glendale</span>
+            <strong><span data-count-since="2001" data-suffix="+">25+</span></strong>
+            <span>years of<br>service</span>
           </div>
         </div>
 
         <div class="split__copy">
-          <p class="eyebrow eyebrow--light" data-reveal>Why Patio Pros</p>
-          <h2 data-split>Heater trouble? <em class="hl">We'll pick it up.</em></h2>
+          <p class="eyebrow eyebrow--light" data-reveal>Why ProGas</p>
+          <h2 id="why-title" data-split>We care for your heater <em class="hl">as if it were our own.</em></h2>
           <p class="split__lead" data-reveal style="--d:150ms">
-            No need to haul a heavy heater across town. We collect it, repair it at our shop on Colorado Street,
-            and bring it back ready to glow — with no delivery charge on repairs or rentals.
+            At ProGas Propane, we know our success depends on your satisfaction. That's why we keep things
+            simple: one local team for your propane, your tanks and your heaters.
           </p>
           <ul class="checklist">
             <li data-reveal="left">
-              <span class="checklist__icon"><svg class="icon"><use href="#i-flame"/></svg></span>
-              <div><strong>Propane &amp; natural gas specialists</strong><span>Freestanding, commercial and residential heaters.</span></div>
+              <span class="checklist__icon" aria-hidden="true"><svg class="icon"><use href="#i-flame"/></svg></span>
+              <div><strong>Propane and heaters under one roof</strong><span>Fuel, tanks, cages and heaters from the same trusted team.</span></div>
             </li>
             <li data-reveal="left">
-              <span class="checklist__icon"><svg class="icon"><use href="#i-truck"/></svg></span>
-              <div><strong>Free pickup &amp; delivery</strong><span>On every repair and rental — just tell us when.</span></div>
+              <span class="checklist__icon" aria-hidden="true"><svg class="icon"><use href="#i-truck"/></svg></span>
+              <div><strong>Delivery to homes and businesses</strong><span>We bring the propane to you, on a schedule that works.</span></div>
             </li>
             <li data-reveal="left">
-              <span class="checklist__icon"><svg class="icon"><use href="#i-shield"/></svg></span>
-              <div><strong>Warranty on new heaters</strong><span>Buy with confidence and get support after the sale.</span></div>
+              <span class="checklist__icon" aria-hidden="true"><svg class="icon"><use href="#i-swap"/></svg></span>
+              <div><strong>Fast tank exchange</strong><span>Swap empties for full tanks without the wait.</span></div>
             </li>
             <li data-reveal="left">
-              <span class="checklist__icon"><svg class="icon"><use href="#i-pin"/></svg></span>
-              <div><strong>Local since 2001</strong><span>A Glendale shop you can call, visit and count on.</span></div>
+              <span class="checklist__icon" aria-hidden="true"><svg class="icon"><use href="#i-pin"/></svg></span>
+              <div><strong>Based in Glendale</strong><span>Serving homes and businesses across Southern California.</span></div>
             </li>
           </ul>
           <div class="split__cta" data-reveal style="--d:200ms">
-            <a class="btn btn--primary" href="#contact" data-magnetic>Schedule a pickup <svg class="icon"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn--link" href="tel:+18189700798"><svg class="icon"><use href="#i-phone"/></svg> (818) 970-0798</a>
+            <a class="btn btn--primary" href="#contact" data-magnetic>Request service <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--link" href="tel:+14244449990"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> (424) 444-9990</a>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============ Stats ============ -->
-    <section class="stats" aria-label="Patio Pros at a glance">
-      <div class="container stats__grid">
-        <div class="stat" data-reveal>
-          <span class="stat__num"><span data-count-since="2001">25</span><i>+</i></span>
-          <span class="stat__label">Years keeping Glendale patios warm</span>
-        </div>
-        <div class="stat" data-reveal>
-          <span class="stat__num"><i>$</i><span>0</span></span>
-          <span class="stat__label">Pickup &amp; delivery fee on repairs and rentals</span>
-        </div>
-        <div class="stat" data-reveal>
-          <span class="stat__num"><span data-count="2">2</span></span>
-          <span class="stat__label">Fuel types we know inside out — propane &amp; natural gas</span>
-        </div>
-        <div class="stat" data-reveal>
+    <section class="stats" aria-label="ProGas Propane at a glance">
+      <ul class="container stats__grid">
+        <li class="stat" data-reveal>
+          <span class="stat__num"><span data-count-since="2001" data-suffix="+">25+</span></span>
+          <span class="stat__label">Years of service</span>
+        </li>
+        <li class="stat" data-reveal>
+          <span class="stat__num"><span data-count="7">7</span></span>
+          <span class="stat__label">Propane and heater services under one roof</span>
+        </li>
+        <li class="stat" data-reveal>
           <span class="stat__num"><span data-count="1">1</span></span>
-          <span class="stat__label">Call to handle sales, repair, installation and rentals</span>
-        </div>
-      </div>
+          <span class="stat__label">Call to (424) 444-9990 handles it all</span>
+        </li>
+      </ul>
     </section>
 
     <!-- ============ Process ============ -->
-    <section class="section section--cream process" id="process">
+    <section class="section section--cream process" id="process" aria-labelledby="process-title">
       <div class="container">
         <header class="section-head section-head--center">
           <p class="eyebrow" data-reveal>How it works</p>
-          <h2 data-split>Back to warm in <em class="hl">four simple steps.</em></h2>
+          <h2 id="process-title" data-split>Fueled and warm in <em class="hl">four simple steps.</em></h2>
         </header>
 
         <div class="process__track" data-process>
           <div class="process__line" aria-hidden="true"><span class="process__fill"></span></div>
           <ol class="process__list">
             <li class="step" data-reveal>
-              <span class="step__num">01</span>
+              <span class="step__num" aria-hidden="true">01</span>
               <h3>Call or send a request</h3>
-              <p>Tell us what's going on — the heater type, fuel and symptoms — or what you're shopping for.</p>
+              <p>Tell us what you need: a new tank, an exchange, a delivery or heater service.</p>
             </li>
             <li class="step" data-reveal>
-              <span class="step__num">02</span>
-              <h3>We pick it up — free</h3>
-              <p>We schedule a pickup that fits your day. Repairs and rentals ship both ways at no charge.</p>
+              <span class="step__num" aria-hidden="true">02</span>
+              <h3>We schedule it</h3>
+              <p>We confirm the details and set a time that works for you.</p>
             </li>
             <li class="step" data-reveal>
-              <span class="step__num">03</span>
-              <h3>Expert repair &amp; tune-up</h3>
-              <p>We diagnose the problem, make the repair and give the rest of the heater a once-over.</p>
+              <span class="step__num" aria-hidden="true">03</span>
+              <h3>We deliver or service</h3>
+              <p>Tanks dropped off or exchanged, heaters set up or repaired.</p>
             </li>
             <li class="step" data-reveal>
-              <span class="step__num">04</span>
-              <h3>Delivered, ready to glow</h3>
-              <p>Your heater comes back working and ready for the next cool evening on the patio.</p>
+              <span class="step__num" aria-hidden="true">04</span>
+              <h3>Enjoy the warmth</h3>
+              <p>Your patio is fueled and ready for the next cool evening.</p>
             </li>
           </ol>
         </div>
       </div>
     </section>
 
+    <!-- ============ Our work ============ -->
+    <section class="section section--dark work" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow eyebrow--light" data-reveal>Our work</p>
+            <h2 id="work-title" data-split>Patios we <em class="hl">keep warm.</em></h2>
+          </div>
+          <p class="section-head__lead" data-reveal style="--d:150ms">
+            Restaurants, hotels, event tents and backyards. Here's a look at some of the spaces ProGas
+            keeps fueled and heated. Select a photo to see it larger.
+          </p>
+        </header>
+
+        <ul class="work__grid" data-gallery>
+          <li class="work__item work__item--feature" data-reveal="curtain">
+            <button type="button" class="work__open" data-full="assets/img/work/job-1484-1600.webp" data-caption="Restaurant patio at night">
+              <img src="assets/img/work/job-1484-1280.webp" srcset="assets/img/work/job-1484-640.webp 640w, assets/img/work/job-1484-1280.webp 1280w" sizes="(min-width: 960px) 50vw, 100vw" alt="Busy restaurant patio at night with diners, a large tree and patio heaters under a clear canopy" width="1280" height="960" loading="lazy" decoding="async">
+              <span class="work__caption">Restaurant patio at night</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item work__item--tall" data-reveal="curtain" style="--d:80ms">
+            <button type="button" class="work__open" data-full="assets/img/work/job-4940-1536.webp" data-caption="Hotel entrance">
+              <img src="assets/img/work/job-4940-640.webp" srcset="assets/img/work/job-4940-640.webp 640w, assets/img/work/job-4940-1280.webp 1280w" sizes="(min-width: 960px) 25vw, 50vw" alt="Row of black commercial patio heaters along a hotel entrance walkway" width="640" height="853" loading="lazy" decoding="async">
+              <span class="work__caption">Hotel entrance</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item" data-reveal="curtain" style="--d:160ms">
+            <button type="button" class="work__open" data-full="assets/img/work/job-2094-1600.webp" data-caption="Ocean-view terrace">
+              <img src="assets/img/work/job-2094-640.webp" srcset="assets/img/work/job-2094-640.webp 640w, assets/img/work/job-2094-1280.webp 1280w" sizes="(min-width: 960px) 25vw, 50vw" alt="Hillside terrace with an ocean view, a pergola and tall patio heaters" width="640" height="480" loading="lazy" decoding="async">
+              <span class="work__caption">Ocean-view terrace</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item" data-reveal="curtain" style="--d:240ms">
+            <button type="button" class="work__open" data-full="assets/img/work/job-5277-1600.webp" data-caption="Poolside cabanas">
+              <img src="assets/img/work/job-5277-640.webp" srcset="assets/img/work/job-5277-640.webp 640w, assets/img/work/job-5277-1280.webp 1280w" sizes="(min-width: 960px) 25vw, 50vw" alt="Poolside cabana lounge with umbrellas and patio heaters" width="640" height="480" loading="lazy" decoding="async">
+              <span class="work__caption">Poolside cabanas</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item" data-reveal="curtain">
+            <button type="button" class="work__open" data-full="assets/img/work/job-5070-1600.webp" data-caption="Lounge patio">
+              <img src="assets/img/work/job-5070-640.webp" srcset="assets/img/work/job-5070-640.webp 640w, assets/img/work/job-5070-1280.webp 1280w" sizes="(min-width: 960px) 25vw, 50vw" alt="Restaurant lounge patio with string lights, sofas and patio heaters" width="640" height="480" loading="lazy" decoding="async">
+              <span class="work__caption">Lounge patio</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item" data-reveal="curtain" style="--d:80ms">
+            <button type="button" class="work__open" data-full="assets/img/work/job-1586-1600.webp" data-caption="Event tent">
+              <img src="assets/img/work/job-1586-640.webp" srcset="assets/img/work/job-1586-640.webp 640w, assets/img/work/job-1586-1280.webp 1280w" sizes="(min-width: 960px) 25vw, 50vw" alt="Long event tent lined with tables, plants and patio heaters" width="640" height="480" loading="lazy" decoding="async">
+              <span class="work__caption">Event tent</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item work__item--wide" data-reveal="curtain" style="--d:160ms">
+            <button type="button" class="work__open" data-full="assets/img/work/job-0665-1600.webp" data-caption="Tented dining at night">
+              <img src="assets/img/work/job-0665-1280.webp" srcset="assets/img/work/job-0665-640.webp 640w, assets/img/work/job-0665-1280.webp 1280w" sizes="(min-width: 960px) 50vw, 100vw" alt="Tented dining area at night with string lights, standing patio heaters and glass-tube flame heaters" width="1280" height="960" loading="lazy" decoding="async">
+              <span class="work__caption">Tented dining at night</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item work__item--wide" data-reveal="curtain">
+            <button type="button" class="work__open" data-full="assets/img/work/job-0932-1600.webp" data-caption="Garden courtyard">
+              <img src="assets/img/work/job-0932-1280.webp" srcset="assets/img/work/job-0932-640.webp 640w, assets/img/work/job-0932-1280.webp 1280w" sizes="(min-width: 960px) 50vw, 100vw" alt="Garden courtyard dining patio with bistro chairs under greenery and patio heaters" width="1280" height="960" loading="lazy" decoding="async">
+              <span class="work__caption">Garden courtyard</span>
+              <span class="work__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
+          </li>
+          <li class="work__item work__item--wide" data-reveal="scale" style="--d:120ms">
+            <a class="work__cta" href="#contact">
+              <span class="work__cta-kicker">Your patio, next</span>
+              <span class="work__cta-title">Ready to make your space <em>warmer?</em></span>
+              <span class="work__cta-arrow" aria-hidden="true"><svg class="icon"><use href="#i-arrow"/></svg></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ============ Rentals ============ -->
-    <section class="rentals" id="rentals">
+    <section class="rentals" id="rentals" aria-labelledby="rentals-title">
       <div class="rentals__media parallax parallax--strong" aria-hidden="true">
-        <img
-          src="https://images.pexels.com/photos/18642429/pexels-photo-18642429.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920"
-          srcset="https://images.pexels.com/photos/18642429/pexels-photo-18642429.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=960 960w, https://images.pexels.com/photos/18642429/pexels-photo-18642429.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1440 1440w, https://images.pexels.com/photos/18642429/pexels-photo-18642429.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920 1920w"
-          sizes="100vw" alt="" loading="lazy" decoding="async">
+        <img src="assets/img/feature/string-lights-patio-1600.webp"
+             srcset="assets/img/feature/string-lights-patio-1024.webp 1024w, assets/img/feature/string-lights-patio-1600.webp 1600w, assets/img/feature/string-lights-patio-2048.webp 2048w"
+             sizes="100vw" alt="" width="1600" height="1200" loading="lazy" decoding="async">
       </div>
       <div class="rentals__shade" aria-hidden="true"></div>
       <div class="container rentals__inner">
         <div class="rentals__card" data-reveal>
-          <p class="eyebrow eyebrow--light">Heater rentals</p>
-          <h2 data-split>Hosting outside? <em class="hl">We'll bring the heat.</em></h2>
+          <p class="eyebrow eyebrow--light">Heater rentals &amp; leasing</p>
+          <h2 id="rentals-title" data-split>Hosting outside? <em class="hl">We'll bring the heat.</em></h2>
           <p>
-            Keep guests comfortable long after sunset. Tell us your date, space and guest count and we'll
-            recommend the right number of heaters — then deliver and pick them up at no extra charge.
+            Rent heaters for a wedding, party or event, or lease them for the season to keep your restaurant
+            patio full. Tell us your date, space and guest count and we'll recommend how many you need.
           </p>
-          <ul class="tags">
+          <ul class="tags" aria-label="Popular uses">
             <li data-reveal="scale">Weddings &amp; parties</li>
-            <li data-reveal="scale">Restaurant &amp; café patios</li>
-            <li data-reveal="scale">Corporate &amp; community events</li>
+            <li data-reveal="scale">Restaurant patios</li>
+            <li data-reveal="scale">Corporate events</li>
+            <li data-reveal="scale">Seasonal leases</li>
             <li data-reveal="scale">Holiday gatherings</li>
-            <li data-reveal="scale">Backyard get-togethers</li>
           </ul>
           <div class="rentals__cta">
-            <a class="btn btn--primary" href="#contact" data-magnetic>Reserve heaters <svg class="icon"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn--ghost" href="tel:+18189700798"><svg class="icon"><use href="#i-phone"/></svg> Call to check dates</a>
+            <a class="btn btn--primary" href="#contact" data-magnetic>Reserve heaters <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--ghost" href="tel:+14244449990"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call to check dates</a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Gallery ============ -->
-    <section class="section section--dark gallery" id="gallery">
-      <div class="container">
-        <header class="section-head section-head--split">
-          <div>
-            <p class="eyebrow eyebrow--light" data-reveal>Outdoor living</p>
-            <h2 data-split>Made for long, <em class="hl">warm evenings.</em></h2>
-          </div>
-          <p class="section-head__lead" data-reveal style="--d:150ms">
-            Backyards, restaurant patios, rooftops and event spaces — a well-placed heater turns a chilly
-            evening into the best seat in the house.
-          </p>
-        </header>
-
-        <div class="gallery__grid">
-          <figure class="gallery__item gallery__item--tall frame" data-reveal="curtain">
-            <div class="parallax">
-              <img src="https://images.pexels.com/photos/14726700/pexels-photo-14726700.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"
-                   srcset="https://images.pexels.com/photos/14726700/pexels-photo-14726700.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640 640w, https://images.pexels.com/photos/14726700/pexels-photo-14726700.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000 1000w"
-                   sizes="(min-width: 960px) 34vw, 100vw" alt="A decorated restaurant patio set for outdoor dining" loading="lazy" decoding="async">
-            </div>
-            <figcaption>Restaurant patios</figcaption>
-          </figure>
-          <figure class="gallery__item gallery__item--wide frame" data-reveal="curtain" style="--d:120ms">
-            <div class="parallax">
-              <img src="https://images.pexels.com/photos/12290139/pexels-photo-12290139.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400"
-                   srcset="https://images.pexels.com/photos/12290139/pexels-photo-12290139.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800 800w, https://images.pexels.com/photos/12290139/pexels-photo-12290139.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400 1400w"
-                   sizes="(min-width: 960px) 62vw, 100vw" alt="Outdoor patio tables lit up at night" loading="lazy" decoding="async">
-            </div>
-            <figcaption>Evening dining</figcaption>
-          </figure>
-          <figure class="gallery__item frame" data-reveal="curtain" style="--d:60ms">
-            <div class="parallax">
-              <img src="https://images.pexels.com/photos/29063825/pexels-photo-29063825.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900"
-                   srcset="https://images.pexels.com/photos/29063825/pexels-photo-29063825.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600 600w, https://images.pexels.com/photos/29063825/pexels-photo-29063825.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900 900w"
-                   sizes="(min-width: 960px) 30vw, 100vw" alt="Relaxing on a backyard patio under string lights" loading="lazy" decoding="async">
-            </div>
-            <figcaption>Backyards</figcaption>
-          </figure>
-          <figure class="gallery__item frame" data-reveal="curtain" style="--d:180ms">
-            <div class="parallax">
-              <img src="https://images.pexels.com/photos/9787527/pexels-photo-9787527.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900"
-                   srcset="https://images.pexels.com/photos/9787527/pexels-photo-9787527.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600 600w, https://images.pexels.com/photos/9787527/pexels-photo-9787527.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900 900w"
-                   sizes="(min-width: 960px) 30vw, 100vw" alt="Outdoor restaurant chairs and tables" loading="lazy" decoding="async">
-            </div>
-            <figcaption>Cafés &amp; terraces</figcaption>
-          </figure>
-          <figure class="gallery__item frame" data-reveal="curtain" style="--d:300ms">
-            <div class="parallax">
-              <img src="https://images.pexels.com/photos/754263/pexels-photo-754263.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900"
-                   srcset="https://images.pexels.com/photos/754263/pexels-photo-754263.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600 600w, https://images.pexels.com/photos/754263/pexels-photo-754263.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900 900w"
-                   sizes="(min-width: 960px) 30vw, 100vw" alt="Warm string lights glowing at dusk" loading="lazy" decoding="async">
-            </div>
-            <figcaption>Events</figcaption>
-          </figure>
-          <a class="gallery__cta" href="#contact" data-reveal="scale" style="--d:200ms">
-            <small>Your patio, next</small>
-            <strong>Ready to make your space <em>warmer?</em></strong>
-            <span class="gallery__cta-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span>
-          </a>
         </div>
       </div>
     </section>
 
     <!-- ============ Seasonal CTA ============ -->
-    <section class="cta-band" aria-label="Book a tune-up">
+    <section class="cta-band" aria-labelledby="cta-title">
       <div class="cta-band__media parallax" aria-hidden="true">
-        <img src="https://images.pexels.com/photos/195029/pexels-photo-195029.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600"
-             srcset="https://images.pexels.com/photos/195029/pexels-photo-195029.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800 800w, https://images.pexels.com/photos/195029/pexels-photo-195029.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600 1600w"
-             sizes="100vw" alt="" loading="lazy" decoding="async">
+        <img src="assets/img/feature/burner-flame-1600.webp"
+             srcset="assets/img/feature/burner-flame-1024.webp 1024w, assets/img/feature/burner-flame-1600.webp 1600w"
+             sizes="100vw" alt="" width="1600" height="1068" loading="lazy" decoding="async">
       </div>
       <div class="container cta-band__inner">
         <div data-reveal="left">
           <p class="eyebrow eyebrow--light">Before the cold sets in</p>
-          <h2>Cooler nights are coming. <em class="hl">Book your tune-up early.</em></h2>
+          <h2 id="cta-title">Cooler nights are coming. <em class="hl">Stock up on propane.</em></h2>
         </div>
         <div class="cta-band__actions" data-reveal="right">
-          <a class="btn btn--primary btn--lg" href="tel:+18189700798" data-magnetic>
-            <svg class="icon"><use href="#i-phone"/></svg> (818) 970-0798
+          <a class="btn btn--primary btn--lg" href="tel:+14244449990" data-magnetic>
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> (424) 444-9990
           </a>
-          <a class="btn btn--ghost btn--lg" href="#contact">Book online</a>
+          <a class="btn btn--ghost btn--lg" href="#contact">Schedule delivery</a>
         </div>
       </div>
     </section>
 
     <!-- ============ Reviews ============ -->
-    <section class="section section--light reviews" id="reviews">
+    <section class="section section--light reviews" id="reviews" aria-labelledby="reviews-title">
       <div class="container">
         <header class="section-head section-head--split">
           <div>
             <p class="eyebrow" data-reveal>Reviews</p>
-            <h2 data-split>What our <em class="hl">customers say.</em></h2>
+            <h2 id="reviews-title" data-split>What our <em class="hl">customers say.</em></h2>
           </div>
           <div class="reviews__summary" data-reviews-summary data-reveal style="--d:150ms"></div>
         </header>
@@ -526,24 +566,26 @@
         <div class="reviews__body" data-reviews>
           <div class="reviews__fallback">
             <div class="reviews__intro" data-reveal>
-              <svg class="icon reviews__quote"><use href="#i-quote"/></svg>
+              <svg class="icon reviews__quote" aria-hidden="true"><use href="#i-quote"/></svg>
               <p>
-                Glendale homeowners, restaurants and event hosts have trusted Patio Pros with their heaters
-                since 2001. Read what they have to say — and share your own experience.
+                Homeowners, restaurants and businesses across Southern California count on ProGas for
+                propane and patio heat. Read their reviews, and share your own.
               </p>
             </div>
             <a class="review-source card" data-reveal data-spotlight
-               href="https://www.google.com/maps/search/?api=1&amp;query=Patio%20Pros%2C%20433%20W%20Colorado%20St%2C%20Glendale%2C%20CA%2091204"
+               href="https://www.google.com/maps/search/?api=1&amp;query=ProGas%20Propane%2C%20Glendale%2C%20CA%2091204"
                target="_blank" rel="noopener">
-              <span class="review-source__logo"><svg viewBox="0 0 48 48"><use href="#i-google"/></svg></span>
+              <span class="review-source__logo" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#i-google"/></svg></span>
               <span class="review-source__text"><strong>Google reviews</strong><small>Read reviews on Google Maps</small></span>
-              <svg class="icon review-source__arrow"><use href="#i-arrow"/></svg>
+              <svg class="icon review-source__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+              <span class="sr-only">(opens in a new tab)</span>
             </a>
             <a class="review-source card" data-reveal data-spotlight
-               href="https://www.yelp.com/biz/patio-pros-glendale" target="_blank" rel="noopener">
+               href="https://www.yelp.com/biz/progas-propane-glendale" target="_blank" rel="noopener">
               <span class="review-source__logo review-source__logo--yelp" aria-hidden="true"><svg class="icon"><use href="#i-star"/></svg></span>
               <span class="review-source__text"><strong>Yelp reviews</strong><small>Read reviews on Yelp</small></span>
-              <svg class="icon review-source__arrow"><use href="#i-arrow"/></svg>
+              <svg class="icon review-source__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+              <span class="sr-only">(opens in a new tab)</span>
             </a>
           </div>
         </div>
@@ -551,15 +593,15 @@
     </section>
 
     <!-- ============ FAQ ============ -->
-    <section class="section section--cream faq" id="faq">
+    <section class="section section--cream faq" id="faq" aria-labelledby="faq-title">
       <div class="container faq__grid">
         <div class="faq__intro">
           <p class="eyebrow" data-reveal>FAQ</p>
-          <h2 data-split>Questions, <em class="hl">answered.</em></h2>
-          <p data-reveal style="--d:150ms">Don't see your question? Give us a call — we're happy to help you figure out what your heater needs.</p>
-          <a class="faq__call card" href="tel:+18189700798" data-reveal style="--d:250ms">
-            <span class="faq__call-icon"><svg class="icon"><use href="#i-phone"/></svg></span>
-            <span><small>Talk to a heater pro</small><strong>(818) 970-0798</strong></span>
+          <h2 id="faq-title" data-split>Questions, <em class="hl">answered.</em></h2>
+          <p data-reveal style="--d:150ms">Don't see your question? Give us a call. We're happy to help you figure out what you need.</p>
+          <a class="faq__call card" href="tel:+14244449990" data-reveal style="--d:250ms">
+            <span class="faq__call-icon" aria-hidden="true"><svg class="icon"><use href="#i-phone"/></svg></span>
+            <span><small>Talk to the ProGas team</small><strong>(424) 444-9990</strong></span>
           </a>
         </div>
 
@@ -567,67 +609,78 @@
           <div class="accordion__item is-open" data-reveal>
             <h3>
               <button type="button" aria-expanded="true" aria-controls="faq-1" id="faq-1-btn">
-                Do you work on both propane and natural gas patio heaters?
+                <span>Do you deliver propane?</span>
                 <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
               </button>
             </h3>
             <div class="accordion__panel" id="faq-1" role="region" aria-labelledby="faq-1-btn">
-              <div><p>Yes. We sell, install, service and repair both propane and natural gas patio heaters, for homes and businesses.</p></div>
+              <div><p>Yes. We deliver propane to homes and businesses. Call (424) 444-9990 to schedule a delivery and confirm we cover your address.</p></div>
             </div>
           </div>
           <div class="accordion__item" data-reveal>
             <h3>
               <button type="button" aria-expanded="false" aria-controls="faq-2" id="faq-2-btn">
-                Do you charge for pickup and delivery?
+                <span>How does tank exchange work?</span>
                 <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
               </button>
             </h3>
             <div class="accordion__panel" id="faq-2" role="region" aria-labelledby="faq-2-btn">
-              <div><p>No — pickup and delivery are free for repairs and rentals. Call us to schedule a time that works for you.</p></div>
+              <div><p>Give us your empty propane tank and we'll swap it for a full one, with no waiting for a refill. Call us to arrange an exchange.</p></div>
             </div>
           </div>
           <div class="accordion__item" data-reveal>
             <h3>
               <button type="button" aria-expanded="false" aria-controls="faq-3" id="faq-3-btn">
-                My heater lights but won't stay lit. Can it be fixed?
+                <span>Do you sell new propane tanks?</span>
                 <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
               </button>
             </h3>
             <div class="accordion__panel" id="faq-3" role="region" aria-labelledby="faq-3-btn">
-              <div><p>Usually, yes. A heater that won't stay lit often points to a worn thermocouple, a faulty igniter, or a gas supply or regulator problem — all common issues we diagnose and repair.</p></div>
+              <div><p>Yes. We sell propane tanks to individuals and businesses. Let us know what you're fueling and we'll help you choose the right tank.</p></div>
             </div>
           </div>
           <div class="accordion__item" data-reveal>
             <h3>
               <button type="button" aria-expanded="false" aria-controls="faq-4" id="faq-4-btn">
-                Can I rent patio heaters for an event?
+                <span>What are propane tank cages for?</span>
                 <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
               </button>
             </h3>
             <div class="accordion__panel" id="faq-4" role="region" aria-labelledby="faq-4-btn">
-              <div><p>Absolutely. We rent heaters for parties, weddings, restaurants and events, with delivery and pickup included. Share your date, venue and guest count and we'll recommend how many you'll need.</p></div>
+              <div><p>A cage gives a business a secure, organized place to store propane cylinders. Ask us about the right cage for your location.</p></div>
             </div>
           </div>
           <div class="accordion__item" data-reveal>
             <h3>
               <button type="button" aria-expanded="false" aria-controls="faq-5" id="faq-5-btn">
-                Do new heaters come with a warranty?
+                <span>Can I rent or lease patio heaters?</span>
                 <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
               </button>
             </h3>
             <div class="accordion__panel" id="faq-5" role="region" aria-labelledby="faq-5-btn">
-              <div><p>Yes. New heaters purchased from Patio Pros come with a warranty. Ask us about the coverage on the model you're considering.</p></div>
+              <div><p>Yes. Rent heaters for a single event, or lease them for the season. Leasing is popular with restaurants that want to keep outdoor seating warm.</p></div>
             </div>
           </div>
           <div class="accordion__item" data-reveal>
             <h3>
               <button type="button" aria-expanded="false" aria-controls="faq-6" id="faq-6-btn">
-                Where are you located, and what areas do you serve?
+                <span>Do you repair patio heaters?</span>
                 <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
               </button>
             </h3>
             <div class="accordion__panel" id="faq-6" role="region" aria-labelledby="faq-6-btn">
-              <div><p>Our shop is at 433 W Colorado St in Glendale, and we serve Glendale and the surrounding Los Angeles area. Not sure if you're in range? Just give us a call.</p></div>
+              <div><p>Yes. We repair propane patio heaters, from ignition problems to heaters that won't stay lit.</p></div>
+            </div>
+          </div>
+          <div class="accordion__item" data-reveal>
+            <h3>
+              <button type="button" aria-expanded="false" aria-controls="faq-7" id="faq-7-btn">
+                <span>What areas do you serve?</span>
+                <span class="accordion__icon" aria-hidden="true"><svg class="icon"><use href="#i-plus"/></svg></span>
+              </button>
+            </h3>
+            <div class="accordion__panel" id="faq-7" role="region" aria-labelledby="faq-7-btn">
+              <div><p>We're based in Glendale and serve most of Southern California, from Ventura County through Los Angeles and Orange County to the Inland Empire. Call to confirm we cover your address.</p></div>
             </div>
           </div>
         </div>
@@ -635,90 +688,90 @@
     </section>
 
     <!-- ============ Contact ============ -->
-    <section class="section section--dark contact" id="contact">
+    <section class="section section--dark contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact__grid">
         <div class="contact__info">
           <p class="eyebrow eyebrow--light" data-reveal>Contact</p>
-          <h2 data-split>Let's get you <em class="hl">warm.</em></h2>
+          <h2 id="contact-title" data-split>Let's get you <em class="hl">fueled.</em></h2>
           <p class="contact__lead" data-reveal style="--d:150ms">
             Call for the fastest response, or send a request and we'll get back to you to schedule a
-            pickup, repair, installation or rental.
+            delivery, exchange, rental or repair.
           </p>
 
           <ul class="contact__list">
             <li data-reveal="left">
-              <span class="contact__icon"><svg class="icon"><use href="#i-phone"/></svg></span>
-              <div><small>Call us</small><a href="tel:+18189700798">(818) 970-0798</a></div>
+              <span class="contact__icon" aria-hidden="true"><svg class="icon"><use href="#i-phone"/></svg></span>
+              <div><span class="contact__label">Call us</span><a href="tel:+14244449990">(424) 444-9990</a></div>
             </li>
             <li data-reveal="left">
-              <span class="contact__icon"><svg class="icon"><use href="#i-pin"/></svg></span>
-              <div>
-                <small>Visit the shop</small>
-                <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Patio%20Pros%2C%20433%20W%20Colorado%20St%2C%20Glendale%2C%20CA%2091204" target="_blank" rel="noopener">433 W Colorado St, Glendale, CA 91204</a>
-              </div>
+              <span class="contact__icon" aria-hidden="true"><svg class="icon"><use href="#i-mail"/></svg></span>
+              <div><span class="contact__label">Email</span><a href="mailto:info@progaspropane.us" data-email-link>info@progaspropane.us</a></div>
             </li>
             <li data-reveal="left">
-              <span class="contact__icon"><svg class="icon"><use href="#i-instagram"/></svg></span>
-              <div><small>Follow along</small><a href="https://www.instagram.com/patiopros/" target="_blank" rel="noopener">@patiopros</a></div>
+              <span class="contact__icon" aria-hidden="true"><svg class="icon"><use href="#i-pin"/></svg></span>
+              <div><span class="contact__label">Based in</span><span class="contact__value">Glendale, CA · Serving Southern California</span></div>
             </li>
           </ul>
 
-          <div class="map frame" data-reveal="curtain">
-            <iframe
-              title="Map showing Patio Pros at 433 W Colorado St, Glendale, CA"
-              src="https://maps.google.com/maps?q=Patio%20Pros%2C%20433%20W%20Colorado%20St%2C%20Glendale%2C%20CA%2091204&amp;z=15&amp;output=embed"
-              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
+          <figure class="area-map frame" data-reveal="curtain">
+            <img src="assets/img/feature/service-area-map-800.webp"
+                 srcset="assets/img/feature/service-area-map-800.webp 800w, assets/img/feature/service-area-map-1400.webp 1400w"
+                 sizes="(min-width: 960px) 44vw, 100vw"
+                 alt="Map of Southern California with the ProGas service area shaded from Ventura County through Los Angeles and Orange County to San Bernardino and Riverside counties"
+                 width="800" height="427" loading="lazy" decoding="async">
+            <figcaption>Our service area</figcaption>
+          </figure>
         </div>
 
-        <form class="contact__form card" data-form novalidate data-reveal="right">
+        <form class="contact__form card" data-form novalidate data-reveal="right" aria-labelledby="form-title" aria-describedby="form-note">
           <div class="form__head">
-            <h3>Request service</h3>
-            <p>We'll call you back to confirm the details.</p>
+            <h3 id="form-title">Request service</h3>
+            <p id="form-note">We'll call you back to confirm the details. Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
           </div>
 
           <div class="form__row">
             <div class="field">
-              <label for="f-name">Name</label>
-              <input id="f-name" name="name" type="text" autocomplete="name" required>
+              <label for="f-name">Name <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-error">
+              <p class="field__error" id="f-name-error" hidden></p>
             </div>
             <div class="field">
-              <label for="f-phone">Phone</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+              <label for="f-phone">Phone <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-error">
+              <p class="field__error" id="f-phone-error" hidden></p>
             </div>
           </div>
 
-          <div class="field">
-            <label for="f-email">Email <span class="optional">(optional)</span></label>
-            <input id="f-email" name="email" type="email" autocomplete="email">
+          <div class="form__row">
+            <div class="field">
+              <label for="f-email">Email <span class="optional">(optional)</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" aria-describedby="f-email-error">
+              <p class="field__error" id="f-email-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="f-city">City or ZIP <span class="optional">(optional)</span></label>
+              <input id="f-city" name="city" type="text" autocomplete="address-level2">
+            </div>
           </div>
 
-          <fieldset class="field">
-            <legend>What do you need?</legend>
+          <fieldset class="field" aria-describedby="f-service-error">
+            <legend>What do you need? <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></legend>
             <div class="chips">
-              <label class="chip"><input type="radio" name="service" value="Repair" required><span>Repair</span></label>
-              <label class="chip"><input type="radio" name="service" value="New heater"><span>New heater</span></label>
-              <label class="chip"><input type="radio" name="service" value="Installation"><span>Installation</span></label>
-              <label class="chip"><input type="radio" name="service" value="Tune-up"><span>Tune-up</span></label>
-              <label class="chip"><input type="radio" name="service" value="Rental"><span>Rental</span></label>
+              <label class="chip"><input type="radio" name="service" value="Propane tank" required><span>Propane tank</span></label>
+              <label class="chip"><input type="radio" name="service" value="Tank exchange"><span>Tank exchange</span></label>
+              <label class="chip"><input type="radio" name="service" value="Delivery"><span>Delivery</span></label>
+              <label class="chip"><input type="radio" name="service" value="Tank cage"><span>Tank cage</span></label>
+              <label class="chip"><input type="radio" name="service" value="Heater purchase"><span>Heater purchase</span></label>
+              <label class="chip"><input type="radio" name="service" value="Heater rental"><span>Heater rental</span></label>
+              <label class="chip"><input type="radio" name="service" value="Heater repair"><span>Heater repair</span></label>
               <label class="chip"><input type="radio" name="service" value="Other"><span>Other</span></label>
             </div>
+            <p class="field__error" id="f-service-error" hidden></p>
           </fieldset>
 
           <div class="field">
-            <label for="f-fuel">Fuel type</label>
-            <div class="select">
-              <select id="f-fuel" name="fuel">
-                <option value="Not sure">Not sure</option>
-                <option value="Propane">Propane</option>
-                <option value="Natural gas">Natural gas</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="f-message">Tell us more</label>
-            <textarea id="f-message" name="message" rows="4" placeholder="Heater brand, what it's doing, event date…"></textarea>
+            <label for="f-message">Tell us more <span class="optional">(optional)</span></label>
+            <textarea id="f-message" name="message" rows="4" placeholder="Tank size, delivery address, event date, heater model…"></textarea>
           </div>
 
           <!-- Honeypot: bots fill this, people never see it -->
@@ -729,7 +782,7 @@
 
           <button class="btn btn--primary btn--lg btn--block" type="submit">
             <span class="btn__label">Send request</span>
-            <svg class="icon"><use href="#i-arrow"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
           </button>
           <p class="form__status" role="status" aria-live="polite"></p>
         </form>
@@ -742,58 +795,82 @@
     <div class="container">
       <div class="footer__top">
         <div class="footer__brand">
-          <a class="brand brand--footer" href="#top" aria-label="Patio Pros — back to top">
-            <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M5 15.5c3.6-6 10.4-9.3 19-9.3s15.4 3.3 19 9.3H5z" fill="currentColor"/>
-              <rect x="21.75" y="2.5" width="4.5" height="3.6" rx="1.4" fill="currentColor"/>
-              <path d="M24 18.5c-4.6 4.4-5.9 7.7-5.9 10.3a5.9 5.9 0 0 0 11.8 0c0-2.6-1.3-5.9-5.9-10.3z" fill="url(#brandFlame)"/>
-              <rect x="22.8" y="35.5" width="2.4" height="8" rx="1.2" fill="currentColor"/>
-              <rect x="15" y="42.6" width="18" height="3.2" rx="1.6" fill="currentColor"/>
-            </svg>
-            <span class="brand__text"><strong>Patio Pros</strong><small>Heater Sales · Service · Rentals</small></span>
+          <a class="brand brand--footer" href="#top">
+            <img class="brand__logo" src="assets/img/brand/progas-logo.webp" alt="" width="217" height="132" loading="lazy">
+            <span class="brand__text"><strong>ProGas Propane</strong><small>Propane · Patio Heaters</small></span>
           </a>
-          <p>Patio heater sales, repair, installation and rentals in Glendale, CA since 2001.</p>
+          <p>Propane tanks, delivery, tank cages and patio heaters for homes and businesses across Southern California.</p>
         </div>
-        <div class="footer__col">
-          <h4>Services</h4>
+        <nav class="footer__col" aria-labelledby="footer-services">
+          <h2 id="footer-services">Services</h2>
           <ul>
-            <li><a href="#services">Repair &amp; diagnostics</a></li>
-            <li><a href="#services">New heater sales</a></li>
-            <li><a href="#services">Installation</a></li>
-            <li><a href="#services">Maintenance</a></li>
-            <li><a href="#rentals">Rentals</a></li>
+            <li><a href="#services">Propane tank sales</a></li>
+            <li><a href="#services">Tank exchange</a></li>
+            <li><a href="#services">Delivery</a></li>
+            <li><a href="#services">Tank cages</a></li>
+            <li><a href="#services">Heater sales</a></li>
+            <li><a href="#rentals">Heater rentals</a></li>
+            <li><a href="#services">Heater repair</a></li>
           </ul>
-        </div>
-        <div class="footer__col">
-          <h4>Company</h4>
+        </nav>
+        <nav class="footer__col" aria-labelledby="footer-company">
+          <h2 id="footer-company">Company</h2>
           <ul>
-            <li><a href="#why">Why Patio Pros</a></li>
+            <li><a href="#why">Why ProGas</a></li>
+            <li><a href="#work">Our work</a></li>
             <li><a href="#process">How it works</a></li>
             <li><a href="#reviews">Reviews</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
-        </div>
+        </nav>
         <div class="footer__col">
-          <h4>Visit</h4>
+          <h2>Contact</h2>
           <ul>
-            <li><a href="tel:+18189700798">(818) 970-0798</a></li>
-            <li><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Patio%20Pros%2C%20433%20W%20Colorado%20St%2C%20Glendale%2C%20CA%2091204" target="_blank" rel="noopener">433 W Colorado St<br>Glendale, CA 91204</a></li>
-            <li><a href="https://www.instagram.com/patiopros/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="tel:+14244449990">(424) 444-9990</a></li>
+            <li><a href="mailto:info@progaspropane.us" data-email-link>info@progaspropane.us</a></li>
+            <li>Glendale, CA</li>
           </ul>
         </div>
       </div>
-      <div class="footer__wordmark" aria-hidden="true">Patio Pros</div>
+      <p class="footer__a11y">
+        <strong>Accessibility:</strong> we want everyone to be able to use this site. If anything is hard to
+        read or use, call <a href="tel:+14244449990">(424) 444-9990</a> or email
+        <a href="mailto:info@progaspropane.us" data-email-link>info@progaspropane.us</a> and we'll help.
+      </p>
+      <div class="footer__wordmark" aria-hidden="true">ProGas</div>
       <div class="footer__bottom">
-        <p>© <span data-year>2026</span> Patio Pros. All rights reserved.</p>
-        <a class="to-top" href="#top">Back to top <svg class="icon"><use href="#i-arrow-up"/></svg></a>
+        <p>© <span data-year>2026</span> ProGas Propane. All rights reserved.</p>
+        <a class="to-top" href="#top">Back to top <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"/></svg></a>
       </div>
     </div>
   </footer>
 
   <!-- Mobile quick actions -->
-  <div class="action-bar" data-action-bar>
-    <a class="btn btn--ghost" href="tel:+18189700798"><svg class="icon"><use href="#i-phone"/></svg> Call</a>
+  <aside class="action-bar" aria-label="Quick contact" data-action-bar>
+    <a class="btn btn--ghost" href="tel:+14244449990"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg> Call</a>
     <a class="btn btn--primary" href="#contact">Get a quote</a>
-  </div>
+  </aside>
+
+  <!-- Photo viewer -->
+  <dialog class="lightbox" aria-labelledby="lightbox-caption" data-lightbox>
+    <div class="lightbox__inner">
+      <figure class="lightbox__figure">
+        <img class="lightbox__img" src="" alt="" data-lightbox-img>
+        <figcaption class="lightbox__caption">
+          <span id="lightbox-caption" data-lightbox-caption></span>
+          <span class="lightbox__count" data-lightbox-count></span>
+        </figcaption>
+      </figure>
+      <button class="lightbox__btn lightbox__btn--prev" type="button" data-lightbox-prev>
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg><span class="sr-only">Previous photo</span>
+      </button>
+      <button class="lightbox__btn lightbox__btn--next" type="button" data-lightbox-next>
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg><span class="sr-only">Next photo</span>
+      </button>
+      <button class="lightbox__btn lightbox__btn--close" type="button" data-lightbox-close>
+        <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg><span class="sr-only">Close photo viewer</span>
+      </button>
+    </div>
+  </dialog>
 </body>
 </html>

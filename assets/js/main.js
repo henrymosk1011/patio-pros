@@ -1,17 +1,21 @@
 /*
- * Patio Pros — interactions & scroll animations.
+ * ProGas Propane — interactions & scroll animations.
  * Performance notes:
  *  - Reveals use IntersectionObserver (no work on scroll).
  *  - The only scroll listener is passive, rAF-throttled, and only toggles
  *    classes / writes transforms. Native scrolling is never hijacked.
  *  - Parallax, the hero exit and the progress bar run as CSS scroll-driven
  *    animations where supported; the JS fallback below covers other browsers.
+ * Accessibility notes:
+ *  - Animated text (split headings, counters) keeps a static copy for screen readers.
+ *  - Looping animation can be paused (WCAG 2.2.2) and respects reduced-motion settings.
+ *  - The mobile menu and photo viewer manage focus and keep the page behind them inert.
  */
 (() => {
   "use strict";
 
   const root = document.documentElement;
-  const cfg = window.PATIO_PROS || {};
+  const cfg = window.SITE_CONFIG || {};
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const supportsScrollTimeline =
@@ -21,6 +25,11 @@
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   $$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+  // Links that open a new tab say so to screen-reader users.
+  $$('a[target="_blank"]').forEach((a) => {
+    if (!a.querySelector(".sr-only")) a.insertAdjacentHTML("beforeend", '<span class="sr-only"> (opens in a new tab)</span>');
+  });
 
   /* ---------- Split headings into words ---------- */
   function splitWords(el) {
@@ -98,8 +107,17 @@
   }
   $$("[data-reveal], [data-split], [data-process]").forEach(observeReveal);
 
+  // Keyboard users tabbing to content that hasn't animated in yet see it immediately.
+  document.addEventListener("focusin", (e) => {
+    const hidden = e.target.closest && e.target.closest("[data-reveal]:not(.is-in)");
+    if (hidden) {
+      revealObserver.unobserve(hidden);
+      hidden.classList.add("is-in", "is-done");
+    }
+  });
+
   // Lets reviews.js animate cards it adds later.
-  window.patioPros = { observeReveal };
+  window.siteUI = { observeReveal };
 
   /* ---------- Count-up numbers ---------- */
   const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
@@ -109,12 +127,18 @@
     return Number(el.dataset.count);
   }
 
-  function renderCount(el, n) {
-    el.textContent = `${el.dataset.prefix || ""}${n}${el.dataset.suffix || ""}`;
-  }
+  const formatCount = (el, n) => `${el.dataset.prefix || ""}${n}${el.dataset.suffix || ""}`;
 
   const counters = $$("[data-count], [data-count-since]");
-  counters.forEach((el) => renderCount(el, reduceMotion ? targetFor(el) : 0));
+  counters.forEach((el) => {
+    // Screen readers get the final number once; the animated digits are hidden from them.
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = formatCount(el, targetFor(el));
+    el.after(sr);
+    el.setAttribute("aria-hidden", "true");
+    el.textContent = formatCount(el, reduceMotion ? targetFor(el) : 0);
+  });
 
   const countObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -126,7 +150,7 @@
       const start = performance.now();
       const tick = (now) => {
         const t = Math.min(1, (now - start) / duration);
-        renderCount(el, Math.round(target * easeOutExpo(t)));
+        el.textContent = formatCount(el, Math.round(target * easeOutExpo(t)));
         if (t < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -140,6 +164,18 @@
     entries.forEach((entry) => entry.target.classList.toggle("is-offscreen", !entry.isIntersecting));
   });
   $$("[data-hero], [data-marquee]").forEach((el) => loopObserver.observe(el));
+
+  /* ---------- Pause / play animations (WCAG 2.2.2) ---------- */
+  const motionToggle = $("[data-motion-toggle]");
+  if (motionToggle) {
+    const sync = () => motionToggle.setAttribute("aria-pressed", String(root.classList.contains("motion-paused")));
+    sync();
+    motionToggle.addEventListener("click", () => {
+      const paused = root.classList.toggle("motion-paused");
+      try { localStorage.setItem("progas-motion", paused ? "paused" : "playing"); } catch (e) { /* storage unavailable */ }
+      sync();
+    });
+  }
 
   /* ---------- Header, progress, action bar (+ parallax fallback) ---------- */
   const header = $("[data-header]");
@@ -162,7 +198,7 @@
 
   // JS parallax is only used where CSS scroll timelines are unsupported.
   const parallaxItems = [];
-  if (!supportsScrollTimeline && !reduceMotion) {
+  if (!supportsScrollTimeline && !reduceMotion && window.matchMedia("(min-width: 961px)").matches) {
     const pxObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const item = parallaxItems.find((it) => it.box === entry.target);
@@ -178,7 +214,6 @@
         img,
         box,
         shift: parseFloat(styles.getPropertyValue("--px-shift")) || 7,
-        scale: parseFloat(styles.getPropertyValue("--px-scale")) || 1.16,
         active: true, // position everything once on load; the observer narrows this down
         top: 0,
         height: 0,
@@ -193,7 +228,8 @@
 
     header.classList.toggle("is-scrolled", y > 24);
     if (Math.abs(y - lastY) > 6) {
-      header.classList.toggle("is-hidden", !menuOpen && y > lastY && y > heroHeight * 0.6);
+      const headerHasFocus = header.contains(document.activeElement);
+      header.classList.toggle("is-hidden", !menuOpen && !headerHasFocus && y > lastY && y > heroHeight * 0.6);
       lastY = y;
     }
     if (actionBar) actionBar.classList.toggle("is-visible", y > heroHeight * 0.65);
@@ -221,7 +257,7 @@
     active.forEach((it) => {
       const p = (vh - it.top) / (vh + it.height);
       const shift = (Math.min(1, Math.max(0, p)) * 2 - 1) * it.shift;
-      it.img.style.transform = `translate3d(0, ${shift.toFixed(2)}%, 0) scale(${it.scale})`;
+      it.img.style.transform = `translate3d(0, ${shift.toFixed(2)}%, 0)`;
     });
   }
 
@@ -246,7 +282,12 @@
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       const id = entry.target.id;
-      navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${id}`));
+      navLinks.forEach((a) => {
+        const current = a.getAttribute("href") === `#${id}`;
+        a.classList.toggle("is-active", current);
+        if (current) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
     });
   }, { rootMargin: "-45% 0px -50% 0px" });
   navLinks
@@ -257,29 +298,40 @@
   /* ---------- Mobile menu ---------- */
   const toggle = $(".menu-toggle");
   const menu = $("#mobile-menu");
+  const menuLabel = $("[data-menu-label]");
+  // Everything outside the header and the menu becomes inert while the menu is open.
+  const behindMenu = [$("#main"), $(".site-footer"), actionBar, $(".skip-link")].filter(Boolean);
 
-  function setMenu(open) {
+  function setMenu(open, { returnFocus = true } = {}) {
+    if (open === menuOpen) return;
     menuOpen = open;
-    root.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    menu.setAttribute("aria-hidden", String(!open));
-    menu.inert = !open;
-    if (open) header.classList.remove("is-hidden");
+    menuLabel.textContent = open ? "Close menu" : "Open menu";
+    behindMenu.forEach((el) => { el.inert = open; });
+
+    if (open) {
+      header.classList.remove("is-hidden");
+      menu.hidden = false;
+      requestAnimationFrame(() => {
+        root.classList.add("menu-open");
+        const first = $("a", menu);
+        if (first) first.focus({ preventScroll: true });
+      });
+    } else {
+      root.classList.remove("menu-open");
+      setTimeout(() => { if (!menuOpen) menu.hidden = true; }, reduceMotion ? 0 : 400);
+      if (returnFocus) toggle.focus({ preventScroll: true });
+    }
   }
 
   if (toggle && menu) {
-    menu.inert = true;
     toggle.addEventListener("click", () => setMenu(!menuOpen));
-    menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false, { returnFocus: false }); });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && menuOpen) {
-        setMenu(false);
-        toggle.focus();
-      }
+      if (e.key === "Escape" && menuOpen) setMenu(false);
     });
-    window.matchMedia("(min-width: 1101px)").addEventListener("change", (e) => {
-      if (e.matches) setMenu(false);
+    window.matchMedia("(min-width: 1181px)").addEventListener("change", (e) => {
+      if (e.matches) setMenu(false, { returnFocus: false });
     });
   }
 
@@ -333,24 +385,108 @@
     });
   });
 
+  /* ---------- Photo viewer ---------- */
+  const lightbox = $("[data-lightbox]");
+  const openers = $$("[data-gallery] .work__open");
+  if (lightbox && openers.length && typeof lightbox.showModal === "function") {
+    const img = $("[data-lightbox-img]", lightbox);
+    const caption = $("[data-lightbox-caption]", lightbox);
+    const count = $("[data-lightbox-count]", lightbox);
+    const figcaption = $(".lightbox__caption", lightbox);
+    let current = 0;
+    let trigger = null;
+
+    const show = (index) => {
+      current = (index + openers.length) % openers.length;
+      const btn = openers[current];
+      const thumb = $("img", btn);
+      img.src = btn.dataset.full;
+      img.alt = thumb.alt;
+      caption.textContent = btn.dataset.caption;
+      count.textContent = `Photo ${current + 1} of ${openers.length}`;
+    };
+
+    openers.forEach((btn, index) => {
+      btn.setAttribute("aria-haspopup", "dialog");
+      btn.addEventListener("click", () => {
+        trigger = btn;
+        figcaption.removeAttribute("aria-live");
+        show(index);
+        lightbox.showModal();
+        root.classList.add("has-dialog");
+        $("[data-lightbox-close]", lightbox).focus();
+        // Announce later photo changes, but not the first one (the dialog name covers it).
+        requestAnimationFrame(() => figcaption.setAttribute("aria-live", "polite"));
+      });
+    });
+
+    $("[data-lightbox-prev]", lightbox).addEventListener("click", () => show(current - 1));
+    $("[data-lightbox-next]", lightbox).addEventListener("click", () => show(current + 1));
+    $("[data-lightbox-close]", lightbox).addEventListener("click", () => lightbox.close());
+
+    lightbox.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(current - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); show(current + 1); }
+    });
+    // Clicking the dark backdrop closes the viewer.
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox || e.target.classList.contains("lightbox__inner")) lightbox.close();
+    });
+    lightbox.addEventListener("close", () => {
+      root.classList.remove("has-dialog");
+      if (trigger) trigger.focus({ preventScroll: true });
+    });
+  }
+
   /* ---------- Contact form ---------- */
   const form = $("[data-form]");
   if (form) {
     const status = $(".form__status", form);
     const submit = $("button[type=submit]", form);
     const label = $(".btn__label", submit);
-    const phoneLink = `<a href="tel:+1${cfg.phoneDigits || "8189700798"}">${cfg.phone || "(818) 970-0798"}</a>`;
+    const phone = cfg.phone || "(424) 444-9990";
+    const phoneLink = `<a href="tel:+1${cfg.phoneDigits || "4244449990"}">${phone}</a>`;
+
+    const rules = {
+      name: { test: (v) => v.trim().length > 1, message: "Please enter your name." },
+      phone: { test: (v) => v.replace(/\D/g, "").length >= 10, message: "Please enter a phone number, including the area code." },
+      email: { test: (v) => !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()), message: "Please enter a valid email address, or leave it blank." },
+      service: { test: (v) => !!v, message: "Please choose what you need." },
+    };
 
     const setStatus = (html, type) => {
       status.innerHTML = html;
       status.className = `form__status${type ? ` is-${type}` : ""}`;
     };
 
-    const fieldOf = (name) => form.elements[name] && (form.elements[name].closest ? form.elements[name].closest(".field") : form.elements[name][0].closest(".field"));
+    const controlsFor = (name) => {
+      const el = form.elements[name];
+      return el instanceof RadioNodeList ? Array.from(el) : [el];
+    };
+    const errorFor = (name) => $(`#f-${name}-error`, form);
+
+    const setFieldError = (name, message) => {
+      const err = errorFor(name);
+      const field = controlsFor(name)[0].closest(".field");
+      controlsFor(name).forEach((c) => {
+        if (message) c.setAttribute("aria-invalid", "true");
+        else c.removeAttribute("aria-invalid");
+      });
+      if (field) field.classList.toggle("is-invalid", !!message);
+      if (err) {
+        err.textContent = message || "";
+        err.hidden = !message;
+      }
+    };
 
     form.addEventListener("input", (e) => {
-      const field = e.target.closest(".field");
-      if (field) field.classList.remove("is-invalid");
+      const name = e.target.name;
+      if (rules[name] && e.target.getAttribute("aria-invalid") === "true" && rules[name].test(String(new FormData(form).get(name) || ""))) {
+        setFieldError(name, "");
+      }
+    });
+    form.addEventListener("change", (e) => {
+      if (e.target.name === "service") setFieldError("service", "");
     });
 
     form.addEventListener("submit", async (e) => {
@@ -358,19 +494,12 @@
       const data = new FormData(form);
       if (data.get("company")) return; // honeypot
 
-      const rules = {
-        name: (v) => v.trim().length > 1,
-        phone: (v) => v.replace(/\D/g, "").length >= 10,
-        email: (v) => !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
-        service: (v) => !!v,
-      };
-      const invalid = Object.keys(rules).filter((name) => !rules[name](String(data.get(name) || "")));
-      $$(".field.is-invalid", form).forEach((f) => f.classList.remove("is-invalid"));
+      const invalid = Object.keys(rules).filter((name) => !rules[name].test(String(data.get(name) || "")));
+      Object.keys(rules).forEach((name) => setFieldError(name, invalid.includes(name) ? rules[name].message : ""));
       if (invalid.length) {
-        invalid.forEach((name) => { const f = fieldOf(name); if (f) f.classList.add("is-invalid"); });
-        const first = form.elements[invalid[0]];
-        (first.focus ? first : first[0]).focus();
-        setStatus("Please add your name, a phone number and what you need.", "error");
+        const n = invalid.length;
+        setStatus(`Please fix ${n === 1 ? "the field" : `the ${n} fields`} marked above.`, "error");
+        controlsFor(invalid[0])[0].focus();
         return;
       }
 
@@ -379,6 +508,7 @@
 
       if (cfg.formEndpoint) {
         submit.classList.add("is-loading");
+        submit.setAttribute("aria-disabled", "true");
         label.textContent = "Sending…";
         try {
           const res = await fetch(cfg.formEndpoint, {
@@ -393,6 +523,7 @@
           setStatus(`Sorry, that didn't go through. Please call us at ${phoneLink}.`, "error");
         } finally {
           submit.classList.remove("is-loading");
+          submit.removeAttribute("aria-disabled");
           label.textContent = "Send request";
         }
         return;
@@ -403,8 +534,8 @@
           `Name: ${name}`,
           `Phone: ${data.get("phone")}`,
           `Email: ${data.get("email") || "-"}`,
+          `City or ZIP: ${data.get("city") || "-"}`,
           `Service: ${data.get("service")}`,
-          `Fuel: ${data.get("fuel")}`,
           "",
           String(data.get("message") || ""),
         ];
