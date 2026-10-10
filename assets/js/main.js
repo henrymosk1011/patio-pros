@@ -1,0 +1,424 @@
+/*
+ * Patio Pros — interactions & scroll animations.
+ * Performance notes:
+ *  - Reveals use IntersectionObserver (no work on scroll).
+ *  - The only scroll listener is passive, rAF-throttled, and only toggles
+ *    classes / writes transforms. Native scrolling is never hijacked.
+ *  - Parallax, the hero exit and the progress bar run as CSS scroll-driven
+ *    animations where supported; the JS fallback below covers other browsers.
+ */
+(() => {
+  "use strict";
+
+  const root = document.documentElement;
+  const cfg = window.PATIO_PROS || {};
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const supportsScrollTimeline =
+    !!(window.CSS && CSS.supports && CSS.supports("animation-timeline: view()"));
+
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+  $$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+  /* ---------- Split headings into words ---------- */
+  function splitWords(el) {
+    const label = el.textContent.replace(/\s+/g, " ").trim();
+    let index = 0;
+
+    const walk = (node) => {
+      Array.from(node.childNodes).forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(" "));
+              return;
+            }
+            const outer = document.createElement("span");
+            const inner = document.createElement("span");
+            outer.className = "w";
+            inner.className = "w__i";
+            inner.style.setProperty("--wi", index++);
+            inner.textContent = part;
+            outer.appendChild(inner);
+            frag.appendChild(outer);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          walk(child);
+        }
+      });
+    };
+
+    const visual = document.createElement("span");
+    visual.setAttribute("aria-hidden", "true");
+    while (el.firstChild) visual.appendChild(el.firstChild);
+    walk(visual);
+
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = label;
+    el.append(sr, visual);
+  }
+
+  $$("[data-split]").forEach(splitWords);
+
+  /* ---------- Scroll reveal ---------- */
+  // Elements that enter together are staggered by their order in that batch,
+  // so a lone element never waits on a long delay meant for a whole grid.
+  const msVar = (el, name) => parseFloat(el.style.getPropertyValue(name)) || 0;
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    let batch = 0;
+    entries
+      .filter((entry) => entry.isIntersecting)
+      .forEach((entry) => {
+        const el = entry.target;
+        revealObserver.unobserve(el);
+        if (el.hasAttribute("data-reveal")) el.style.setProperty("--i", batch++);
+        el.classList.add("is-in");
+        const settle = msVar(el, "--i") * 90 + msVar(el, "--d") + 1300;
+        setTimeout(() => el.classList.add("is-done"), settle);
+      });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.01 });
+
+  const observeReveal = (el) => {
+    if (reduceMotion) {
+      el.classList.add("is-in", "is-done");
+      return;
+    }
+    revealObserver.observe(el);
+  };
+
+  if (!supportsScrollTimeline) {
+    $$(".footer__wordmark").forEach((el) => el.setAttribute("data-reveal", "fade"));
+  }
+  $$("[data-reveal], [data-split], [data-process]").forEach(observeReveal);
+
+  // Lets reviews.js animate cards it adds later.
+  window.patioPros = { observeReveal };
+
+  /* ---------- Count-up numbers ---------- */
+  const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+
+  function targetFor(el) {
+    if (el.dataset.countSince) return new Date().getFullYear() - Number(el.dataset.countSince);
+    return Number(el.dataset.count);
+  }
+
+  function renderCount(el, n) {
+    el.textContent = `${el.dataset.prefix || ""}${n}${el.dataset.suffix || ""}`;
+  }
+
+  const counters = $$("[data-count], [data-count-since]");
+  counters.forEach((el) => renderCount(el, reduceMotion ? targetFor(el) : 0));
+
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      countObserver.unobserve(el);
+      const target = targetFor(el);
+      const duration = 1700;
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        renderCount(el, Math.round(target * easeOutExpo(t)));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+
+  if (!reduceMotion) counters.forEach((el) => countObserver.observe(el));
+
+  /* ---------- Pause off-screen loops ---------- */
+  const loopObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => entry.target.classList.toggle("is-offscreen", !entry.isIntersecting));
+  });
+  $$("[data-hero], [data-marquee]").forEach((el) => loopObserver.observe(el));
+
+  /* ---------- Header, progress, action bar (+ parallax fallback) ---------- */
+  const header = $("[data-header]");
+  const hero = $("[data-hero]");
+  const actionBar = $("[data-action-bar]");
+  const progressBar = $(".scroll-progress span");
+  const heroMedia = $(".hero__media");
+  const heroContent = $(".hero__content");
+
+  let menuOpen = false;
+  let lastY = window.scrollY;
+  let heroHeight = hero ? hero.offsetHeight : 600;
+  let maxScroll = 1;
+  let ticking = false;
+
+  const measure = () => {
+    heroHeight = hero ? hero.offsetHeight : 600;
+    maxScroll = Math.max(1, root.scrollHeight - window.innerHeight);
+  };
+
+  // JS parallax is only used where CSS scroll timelines are unsupported.
+  const parallaxItems = [];
+  if (!supportsScrollTimeline && !reduceMotion) {
+    const pxObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const item = parallaxItems.find((it) => it.box === entry.target);
+        if (item) item.active = entry.isIntersecting;
+      });
+      requestUpdate();
+    }, { rootMargin: "120px 0px" });
+
+    $$(".parallax > img").forEach((img) => {
+      const box = img.parentElement;
+      const styles = getComputedStyle(box);
+      parallaxItems.push({
+        img,
+        box,
+        shift: parseFloat(styles.getPropertyValue("--px-shift")) || 7,
+        scale: parseFloat(styles.getPropertyValue("--px-scale")) || 1.16,
+        active: true, // position everything once on load; the observer narrows this down
+        top: 0,
+        height: 0,
+      });
+      pxObserver.observe(box);
+    });
+  }
+
+  function update() {
+    ticking = false;
+    const y = window.scrollY;
+
+    header.classList.toggle("is-scrolled", y > 24);
+    if (Math.abs(y - lastY) > 6) {
+      header.classList.toggle("is-hidden", !menuOpen && y > lastY && y > heroHeight * 0.6);
+      lastY = y;
+    }
+    if (actionBar) actionBar.classList.toggle("is-visible", y > heroHeight * 0.65);
+
+    if (supportsScrollTimeline || reduceMotion) return;
+
+    progressBar.style.setProperty("--progress", Math.min(1, y / maxScroll).toFixed(4));
+
+    if (y < heroHeight) {
+      const p = y / heroHeight;
+      const q = Math.min(1, p / 0.7);
+      heroMedia.style.transform = `translate3d(0, ${(p * 22).toFixed(2)}%, 0)`;
+      heroContent.style.transform = `translate3d(0, ${(-q * 10).toFixed(2)}vh, 0)`;
+      heroContent.style.opacity = (1 - q).toFixed(3);
+    }
+
+    // Read every rect first, then write every transform: no layout thrash.
+    const vh = window.innerHeight;
+    const active = parallaxItems.filter((it) => it.active);
+    active.forEach((it) => {
+      const r = it.box.getBoundingClientRect();
+      it.top = r.top;
+      it.height = r.height;
+    });
+    active.forEach((it) => {
+      const p = (vh - it.top) / (vh + it.height);
+      const shift = (Math.min(1, Math.max(0, p)) * 2 - 1) * it.shift;
+      it.img.style.transform = `translate3d(0, ${shift.toFixed(2)}%, 0) scale(${it.scale})`;
+    });
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  // Keyboard users tabbing into a hidden header should always see it.
+  header.addEventListener("focusin", () => header.classList.remove("is-hidden"));
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", () => { measure(); requestUpdate(); }, { passive: true });
+  window.addEventListener("load", () => { measure(); requestUpdate(); });
+  measure();
+  update();
+
+  /* ---------- Active nav link ---------- */
+  const navLinks = $$(".nav a");
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${id}`));
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  navLinks
+    .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+    .filter(Boolean)
+    .forEach((section) => sectionObserver.observe(section));
+
+  /* ---------- Mobile menu ---------- */
+  const toggle = $(".menu-toggle");
+  const menu = $("#mobile-menu");
+
+  function setMenu(open) {
+    menuOpen = open;
+    root.classList.toggle("menu-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    menu.setAttribute("aria-hidden", String(!open));
+    menu.inert = !open;
+    if (open) header.classList.remove("is-hidden");
+  }
+
+  if (toggle && menu) {
+    menu.inert = true;
+    toggle.addEventListener("click", () => setMenu(!menuOpen));
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menuOpen) {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+    window.matchMedia("(min-width: 1101px)").addEventListener("change", (e) => {
+      if (e.matches) setMenu(false);
+    });
+  }
+
+  /* ---------- Pointer effects (desktop only) ---------- */
+  if (finePointer && !reduceMotion) {
+    $$("[data-magnetic]").forEach((btn) => {
+      let rect = null;
+      let frame = 0;
+      btn.addEventListener("pointerenter", () => { rect = btn.getBoundingClientRect(); });
+      btn.addEventListener("pointermove", (e) => {
+        if (!rect) rect = btn.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) * 0.22;
+        const y = (e.clientY - rect.top - rect.height / 2) * 0.32;
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          btn.style.setProperty("--tx", `${x.toFixed(1)}px`);
+          btn.style.setProperty("--ty", `${y.toFixed(1)}px`);
+        });
+      });
+      btn.addEventListener("pointerleave", () => {
+        cancelAnimationFrame(frame);
+        rect = null;
+        btn.style.setProperty("--tx", "0px");
+        btn.style.setProperty("--ty", "0px");
+      });
+    });
+
+    document.addEventListener("pointermove", (e) => {
+      const card = e.target.closest && e.target.closest("[data-spotlight]");
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${(e.clientX - r.left).toFixed(0)}px`);
+      card.style.setProperty("--my", `${(e.clientY - r.top).toFixed(0)}px`);
+    }, { passive: true });
+  }
+
+  /* ---------- FAQ accordion ---------- */
+  $$("[data-accordion]").forEach((accordion) => {
+    accordion.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[aria-controls]");
+      if (!btn) return;
+      const item = btn.closest(".accordion__item");
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      $$(".accordion__item.is-open", accordion).forEach((other) => {
+        if (other === item) return;
+        other.classList.remove("is-open");
+        $("button[aria-controls]", other).setAttribute("aria-expanded", "false");
+      });
+      item.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    });
+  });
+
+  /* ---------- Contact form ---------- */
+  const form = $("[data-form]");
+  if (form) {
+    const status = $(".form__status", form);
+    const submit = $("button[type=submit]", form);
+    const label = $(".btn__label", submit);
+    const phoneLink = `<a href="tel:+1${cfg.phoneDigits || "8189700798"}">${cfg.phone || "(818) 970-0798"}</a>`;
+
+    const setStatus = (html, type) => {
+      status.innerHTML = html;
+      status.className = `form__status${type ? ` is-${type}` : ""}`;
+    };
+
+    const fieldOf = (name) => form.elements[name] && (form.elements[name].closest ? form.elements[name].closest(".field") : form.elements[name][0].closest(".field"));
+
+    form.addEventListener("input", (e) => {
+      const field = e.target.closest(".field");
+      if (field) field.classList.remove("is-invalid");
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      if (data.get("company")) return; // honeypot
+
+      const rules = {
+        name: (v) => v.trim().length > 1,
+        phone: (v) => v.replace(/\D/g, "").length >= 10,
+        email: (v) => !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+        service: (v) => !!v,
+      };
+      const invalid = Object.keys(rules).filter((name) => !rules[name](String(data.get(name) || "")));
+      $$(".field.is-invalid", form).forEach((f) => f.classList.remove("is-invalid"));
+      if (invalid.length) {
+        invalid.forEach((name) => { const f = fieldOf(name); if (f) f.classList.add("is-invalid"); });
+        const first = form.elements[invalid[0]];
+        (first.focus ? first : first[0]).focus();
+        setStatus("Please add your name, a phone number and what you need.", "error");
+        return;
+      }
+
+      const name = String(data.get("name")).trim();
+      const firstName = name.split(" ")[0];
+
+      if (cfg.formEndpoint) {
+        submit.classList.add("is-loading");
+        label.textContent = "Sending…";
+        try {
+          const res = await fetch(cfg.formEndpoint, {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          form.reset();
+          setStatus(`Thanks, ${escapeHtml(firstName)}! We'll call you shortly to confirm the details.`, "success");
+        } catch (err) {
+          setStatus(`Sorry, that didn't go through. Please call us at ${phoneLink}.`, "error");
+        } finally {
+          submit.classList.remove("is-loading");
+          label.textContent = "Send request";
+        }
+        return;
+      }
+
+      if (cfg.email) {
+        const lines = [
+          `Name: ${name}`,
+          `Phone: ${data.get("phone")}`,
+          `Email: ${data.get("email") || "-"}`,
+          `Service: ${data.get("service")}`,
+          `Fuel: ${data.get("fuel")}`,
+          "",
+          String(data.get("message") || ""),
+        ];
+        const subject = `Service request: ${data.get("service")} — ${name}`;
+        window.location.href = `mailto:${cfg.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+        setStatus("Your email app should open with your request ready to send.", "success");
+        return;
+      }
+
+      setStatus(`Thanks, ${escapeHtml(firstName)}! For the fastest booking, give us a call at ${phoneLink}.`, "success");
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+})();
