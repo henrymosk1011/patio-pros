@@ -1824,12 +1824,32 @@ fieldset .field__error { margin-top: 10px; }
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.4s var(--ease-spring);
 }
 .chip:hover span { border-color: var(--flame-soft); }
+/* Each chip shows a small check box, so it reads as "pick as many as you like". */
+.chip span::before {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-right: 9px;
+  border-radius: 5px;
+  border: 1.5px solid currentColor;
+  background: transparent no-repeat center / 12px 12px;
+  opacity: 0.75;
+  transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+}
 .chip input:checked + span {
   background: var(--flame-soft);
   border-color: var(--flame-soft);
   color: var(--ink);
   transform: scale(1.04);
 }
+.chip input:checked + span::before {
+  opacity: 1;
+  border-color: var(--ink);
+  background-color: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23ff9a3c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.field__hint { margin-left: 6px; color: var(--on-dark-muted); font-size: 0.85rem; font-weight: 500; }
 .chip input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 3px; }
 
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
@@ -2228,6 +2248,8 @@ fieldset .field__error { margin-top: 10px; }
   .card,
   .accordion__icon,
   .lightbox__btn { border: 1px solid CanvasText; }
+  .chip input:checked + span { border: 2px solid Highlight; }
+  .chip input:checked + span::before { background-color: Highlight; border-color: Highlight; }
   em.hl,
   em.hl .w__i,
   .stat__num { color: CanvasText; background: none; }

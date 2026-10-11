@@ -532,7 +532,7 @@
       name: { test: (v) => v.trim().length > 1, message: "Please enter your name." },
       phone: { test: (v) => v.replace(/\D/g, "").length >= 10, message: "Please enter a phone number, including the area code." },
       email: { test: (v) => !v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()), message: "Please enter a valid email address, or leave it blank." },
-      service: { test: (v) => !!v, message: "Please choose what you need." },
+      service: { test: (v) => !!v, message: "Please choose at least one option." },
     };
 
     const setStatus = (html, type) => {
@@ -566,8 +566,9 @@
         setFieldError(name, "");
       }
     });
+    // Services are checkboxes: clear the error once at least one is ticked.
     form.addEventListener("change", (e) => {
-      if (e.target.name === "service") setFieldError("service", "");
+      if (e.target.name === "service" && new FormData(form).getAll("service").length) setFieldError("service", "");
     });
 
     form.addEventListener("submit", async (e) => {
@@ -586,6 +587,9 @@
 
       const name = String(data.get("name")).trim();
       const firstName = name.split(" ")[0];
+      // Visitors can pick several services; send them as one readable line.
+      const services = data.getAll("service").join(", ");
+      data.set("service", services);
 
       if (cfg.formEndpoint) {
         submit.classList.add("is-loading");
@@ -616,11 +620,11 @@
           `Phone: ${data.get("phone")}`,
           `Email: ${data.get("email") || "not given"}`,
           `City or ZIP: ${data.get("city") || "not given"}`,
-          `Service: ${data.get("service")}`,
+          `Services: ${services}`,
           "",
           String(data.get("message") || ""),
         ];
-        const subject = `Service request: ${data.get("service")} for ${name}`;
+        const subject = `Service request: ${services} for ${name}`;
         window.location.href = `mailto:${cfg.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
         setStatus("Your email app should open with your request ready to send.", "success");
         return;
