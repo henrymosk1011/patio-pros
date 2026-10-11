@@ -1,8 +1,12 @@
 /*
- * ProGas Propane — live Google reviews.
- * Loads only when an API key is set in config.js, and only once the reviews
- * section is close to the viewport, so it never slows the first paint.
- * Without a key the static "Read our reviews" block stays in place.
+ * ProGas Propane: customer review tiles.
+ * Two sources, both optional:
+ *  1. SITE_CONFIG.reviews: real reviews copied into config.js. They show right away.
+ *  2. Live Google reviews from the Places API, when google.apiKey is set. They
+ *     load only once the section is close to the viewport, so the first paint
+ *     never waits on Google.
+ * With neither, the static "Read our reviews" links stay in place.
+ * Review text is always set with textContent and never parsed as HTML.
  */
 (() => {
   "use strict";
@@ -11,20 +15,55 @@
   const cfg = settings.google || {};
   const body = document.querySelector("[data-reviews]");
   const summary = document.querySelector("[data-reviews-summary]");
-  if (!body || !cfg.apiKey) return;
+  if (!body) return;
 
   const SVG_NS = "http://www.w3.org/2000/svg";
   const digits = (s) => String(s || "").replace(/\D/g, "");
   const wantedPhone = digits(settings.phoneDigits);
+  const mapsSearch = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cfg.query || "ProGas Propane")}`;
+  const yelpPage = settings.yelpUrl || "https://www.yelp.com/biz/progas-propane-glendale";
 
-  const observer = new IntersectionObserver((entries) => {
-    if (!entries.some((e) => e.isIntersecting)) return;
-    observer.disconnect();
-    load().catch((err) => console.warn("[ProGas] Google reviews unavailable:", err.message || err));
-  }, { rootMargin: "800px 0px" });
-  observer.observe(body);
+  /* ---------- Reviews pasted into config.js ---------- */
+  const safeUrl = (value) => {
+    try {
+      const url = new URL(String(value));
+      return url.protocol === "https:" ? url.href : null;
+    } catch (e) {
+      return null;
+    }
+  };
 
-  /* ---------- Google Maps JS loader ---------- */
+  const formatDate = (value) => {
+    if (!value) return "";
+    const match = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(String(value));
+    if (!match) return String(value);
+    const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3] || 1));
+    return date.toLocaleDateString(undefined, { month: "short", year: "numeric" });
+  };
+
+  const pasted = (Array.isArray(settings.reviews) ? settings.reviews : [])
+    .filter((r) => r && r.text && r.author)
+    .map((r) => ({
+      source: String(r.source || "").toLowerCase() === "yelp" ? "yelp" : "google",
+      author: String(r.author),
+      rating: Math.max(1, Math.min(5, Number(r.rating) || 5)),
+      text: String(r.text),
+      when: formatDate(r.date),
+      url: safeUrl(r.url),
+    }));
+
+  if (pasted.length) renderTiles(pasted, null);
+
+  /* ---------- Live Google reviews ---------- */
+  if (cfg.apiKey) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      observer.disconnect();
+      load().catch((err) => console.warn("[ProGas] Google reviews unavailable:", err.message || err));
+    }, { rootMargin: "800px 0px" });
+    observer.observe(body);
+  }
+
   function loadMaps() {
     if (window.google && google.maps && google.maps.importLibrary) return Promise.resolve();
     return new Promise((resolve, reject) => {
@@ -73,15 +112,30 @@
     await place.fetchFields({ fields: ["displayName", "rating", "userRatingCount", "reviews", "googleMapsURI"] });
 
     const minRating = Number(cfg.minRating) || 1;
-    const reviews = (place.reviews || [])
+    const live = (place.reviews || [])
       .filter((r) => (r.rating || 0) >= minRating && r.text)
-      .slice(0, Number(cfg.maxReviews) || 5);
+      .slice(0, Number(cfg.maxReviews) || 5)
+      .map((r) => {
+        const author = r.authorAttribution || {};
+        return {
+          source: "google",
+          author: author.displayName || "Google user",
+          authorUrl: safeUrl(author.uri),
+          photo: safeUrl(author.photoURI),
+          rating: r.rating || 5,
+          text: r.text,
+          when: r.relativePublishTimeDescription ||
+            (r.publishTime ? new Date(r.publishTime).toLocaleDateString(undefined, { month: "short", year: "numeric" }) : ""),
+        };
+      });
 
     if (place.rating) renderSummary(place);
-    if (reviews.length) renderReviews(place, reviews);
+    // Live Google reviews replace pasted Google ones (so nothing shows twice); pasted Yelp reviews stay.
+    const tiles = live.concat(pasted.filter((r) => r.source !== "google"));
+    if (tiles.length) renderTiles(tiles, place);
   }
 
-  /* ---------- DOM helpers (text only — review content is never parsed as HTML) ---------- */
+  /* ---------- DOM helpers ---------- */
   function el(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -124,6 +178,16 @@
     return a;
   }
 
+  function sourceBadge(source) {
+    const badge = el("span", `rtile__source rtile__source--${source}`);
+    if (source === "yelp") {
+      badge.append(icon("i-star"), document.createTextNode("Yelp"));
+    } else {
+      badge.append(icon("i-google", "", "0 0 48 48"), document.createTextNode("Google"));
+    }
+    return badge;
+  }
+
   /* ---------- Rendering ---------- */
   function renderSummary(place) {
     if (!summary) return;
@@ -136,103 +200,84 @@
     summary.replaceChildren(el("span", "rating-score", place.rating.toFixed(1)), meta);
   }
 
-  function reviewCard(review) {
-    const card = el("article", "review card");
-    card.setAttribute("data-reveal", "");
+  function tile(review, index) {
+    const item = el("li", `rtile${index === 0 ? " rtile--feature" : ""}`);
+    item.setAttribute("data-reveal", "");
 
-    const text = el("p", "review__text", review.text);
-    const more = el("button", "review__more", "Read more");
+    const top = el("div", "rtile__top");
+    top.append(stars(review.rating), sourceBadge(review.source));
+
+    const quote = el("blockquote", "rtile__quote");
+    const text = el("p", "rtile__text", review.text);
+    const textId = `rtile-text-${index}`;
+    text.id = textId;
+    quote.appendChild(text);
+
+    const more = el("button", "rtile__more", "Read more");
     more.type = "button";
     more.hidden = true;
+    more.setAttribute("aria-expanded", "false");
+    more.setAttribute("aria-controls", textId);
     more.addEventListener("click", () => {
-      const expanded = card.classList.toggle("is-expanded");
+      const expanded = item.classList.toggle("is-expanded");
       more.textContent = expanded ? "Show less" : "Read more";
+      more.setAttribute("aria-expanded", String(expanded));
     });
 
-    const author = review.authorAttribution || {};
-    const name = author.displayName || "Google user";
-    const avatar = el("span", "review__avatar");
-    if (author.photoURI) {
+    const avatar = el("span", "rtile__avatar");
+    avatar.setAttribute("aria-hidden", "true");
+    if (review.photo) {
       const img = el("img");
-      img.src = author.photoURI;
+      img.src = review.photo;
       img.alt = "";
       img.loading = "lazy";
       img.referrerPolicy = "no-referrer";
       avatar.appendChild(img);
     } else {
-      avatar.textContent = name.charAt(0).toUpperCase();
+      avatar.textContent = review.author.charAt(0).toUpperCase();
     }
 
-    const who = el("div", "review__who");
-    who.appendChild(author.uri ? link(author.uri, name) : el("span", null, name));
-    const when = review.relativePublishTimeDescription ||
-      (review.publishTime ? new Date(review.publishTime).toLocaleDateString(undefined, { month: "short", year: "numeric" }) : "");
-    if (when) who.appendChild(el("small", null, when));
+    const who = el("div", "rtile__who");
+    who.appendChild(review.authorUrl ? link(review.authorUrl, review.author) : el("span", null, review.author));
+    const meta = [review.when, review.url ? null : `on ${review.source === "yelp" ? "Yelp" : "Google"}`].filter(Boolean).join(" ");
+    if (meta) who.appendChild(el("small", null, meta));
+    if (review.url) who.appendChild(link(review.url, `View on ${review.source === "yelp" ? "Yelp" : "Google"}`, "rtile__view"));
 
-    const footer = el("footer", "review__author");
-    footer.append(avatar, who, icon("i-google", "review__g", "0 0 48 48"));
+    const footer = el("footer", "rtile__author");
+    footer.append(avatar, who);
 
-    card.append(stars(review.rating), text, more, footer);
-    return { card, text, more };
+    item.append(top, quote, more, footer);
+    return { item, text, more };
   }
 
-  function renderReviews(place, reviews) {
-    const track = el("div", "reviews__track");
-    track.tabIndex = 0;
-    track.setAttribute("role", "region");
-    track.setAttribute("aria-label", "Customer reviews from Google");
+  function renderTiles(reviews, place) {
+    const grid = el("ul", "reviews__grid");
+    grid.setAttribute("aria-label", "Customer reviews");
+    const tiles = reviews.map(tile);
+    tiles.forEach(({ item }) => grid.appendChild(item));
 
-    const cards = reviews.map(reviewCard);
-    cards.forEach(({ card }) => track.appendChild(card));
+    const footer = el("div", "reviews__footer");
+    const links = el("div", "reviews__links");
+    links.append(
+      link((place && place.googleMapsURI) || mapsSearch, "Read all reviews on Google"),
+      link(yelpPage, "Review us on Yelp")
+    );
+    footer.appendChild(links);
+    if (place) {
+      const attribution = el("span", "reviews__attribution");
+      attribution.append(icon("i-google", "", "0 0 48 48"), document.createTextNode("Reviews from Google"));
+      footer.appendChild(attribution);
+    }
 
-    const attribution = el("span", "reviews__attribution");
-    attribution.append(icon("i-google", "", "0 0 48 48"), document.createTextNode("Reviews from Google"));
+    body.replaceChildren(grid, footer);
+    body.classList.add("has-tiles");
 
-    const prev = el("button");
-    const next = el("button");
-    prev.type = next.type = "button";
-    prev.setAttribute("aria-label", "Previous reviews");
-    next.setAttribute("aria-label", "Next reviews");
-    prev.appendChild(icon("i-chevron-left"));
-    next.appendChild(icon("i-chevron-right"));
-    const nav = el("div", "reviews__nav");
-    nav.append(prev, next);
-
-    const controls = el("div", "reviews__controls");
-    controls.append(attribution, nav);
-
-    body.replaceChildren(track, controls);
-
-    const step = () => {
-      const first = track.firstElementChild;
-      const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
-      return first ? first.getBoundingClientRect().width + gap : track.clientWidth;
-    };
-    prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
-    next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
-
-    let pending = false;
-    const syncNav = () => {
-      pending = false;
-      const max = track.scrollWidth - track.clientWidth - 2;
-      prev.disabled = track.scrollLeft <= 2;
-      next.disabled = track.scrollLeft >= max;
-      nav.hidden = max <= 0;
-    };
-    track.addEventListener("scroll", () => {
-      if (!pending) {
-        pending = true;
-        requestAnimationFrame(syncNav);
-      }
-    }, { passive: true });
-    window.addEventListener("resize", syncNav, { passive: true });
-
+    // Only offer "Read more" on reviews that are actually cut off.
     requestAnimationFrame(() => {
-      syncNav();
-      cards.forEach(({ text, more }) => { more.hidden = text.scrollHeight <= text.clientHeight + 2; });
+      tiles.forEach(({ text, more }) => { more.hidden = text.scrollHeight <= text.clientHeight + 2; });
     });
 
     const reveal = window.siteUI && window.siteUI.observeReveal;
-    if (reveal) cards.forEach(({ card }) => reveal(card));
+    if (reveal) tiles.forEach(({ item }) => reveal(item));
   }
 })();

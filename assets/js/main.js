@@ -1,5 +1,5 @@
 /*
- * ProGas Propane — interactions & scroll animations.
+ * ProGas Propane: interactions and scroll animations.
  * Performance notes:
  *  - Reveals use IntersectionObserver (no work on scroll).
  *  - The only scroll listener is passive, rAF-throttled, and only toggles
@@ -102,10 +102,7 @@
     revealObserver.observe(el);
   };
 
-  if (!supportsScrollTimeline) {
-    $$(".footer__wordmark").forEach((el) => el.setAttribute("data-reveal", "fade"));
-  }
-  $$("[data-reveal], [data-split], [data-process]").forEach(observeReveal);
+  $$("[data-reveal], [data-split]").forEach(observeReveal);
 
   // Keyboard users tabbing to content that hasn't animated in yet see it immediately.
   document.addEventListener("focusin", (e) => {
@@ -275,6 +272,90 @@
   window.addEventListener("load", () => { measure(); requestUpdate(); });
   measure();
   update();
+
+  /* ---------- How it works: scroll-linked steps ----------
+     A spark runs along the line as you scroll, and each step lights up when
+     the spark reaches its number. On wide screens the stage is pinned (CSS
+     position: sticky) for the length of .process__pin. Only --fill and a few
+     classes are written, and only while the section is near the viewport. */
+  const processPin = $("[data-process]");
+  if (processPin && !reduceMotion) {
+    const section = processPin.closest(".process");
+    const track = $(".process__track", processPin);
+    const line = $(".process__line", processPin);
+    const steps = $$(".step", processPin);
+    const nums = steps.map((step) => $(".step__num", step));
+    const pinned = window.matchMedia("(min-width: 961px) and (min-height: 700px)");
+    let marks = [];
+    let near = false;
+    let frame = 0;
+    let lastLit = null;
+
+    section.classList.add("is-live");
+
+    // Where each number sits along the line, from 0 (start) to 1 (end).
+    const measureSteps = () => {
+      track.style.removeProperty("--line-end");
+      let box = line.getBoundingClientRect();
+      const vertical = box.height > box.width;
+      if (vertical) {
+        // Stop the vertical line at the last number instead of the end of the list.
+        const last = nums[nums.length - 1].getBoundingClientRect();
+        const end = track.getBoundingClientRect().bottom - (last.top + last.height / 2);
+        track.style.setProperty("--line-end", `${Math.max(0, end).toFixed(1)}px`);
+        box = line.getBoundingClientRect();
+      }
+      marks = nums.map((num) => {
+        const r = num.getBoundingClientRect();
+        return vertical
+          ? (r.top + r.height / 2 - box.top) / box.height
+          : (r.left + r.width / 2 - box.left) / box.width;
+      });
+    };
+
+    const renderSteps = () => {
+      frame = 0;
+      const vh = window.innerHeight;
+      let fill;
+      if (pinned.matches) {
+        const r = processPin.getBoundingClientRect();
+        const progress = -r.top / Math.max(1, r.height - vh);
+        fill = (progress - 0.04) / 0.8; // a short pause before step 1 and after step 4
+      } else {
+        const r = line.getBoundingClientRect();
+        fill = (vh * 0.62 - r.top) / Math.max(1, r.height);
+      }
+      const clamped = Math.min(1, Math.max(0, fill));
+      track.style.setProperty("--fill", clamped.toFixed(4));
+      track.classList.toggle("is-running", clamped > 0 && clamped < 1);
+
+      let lit = -1;
+      marks.forEach((mark, i) => { if (fill >= mark - 0.002) lit = i; });
+      if (lit === lastLit) return;
+      lastLit = lit;
+      steps.forEach((step, i) => {
+        step.classList.toggle("is-lit", i <= lit);
+        step.classList.toggle("is-current", i === lit);
+      });
+    };
+
+    const requestSteps = () => {
+      if (near && !frame) frame = requestAnimationFrame(renderSteps);
+    };
+
+    new IntersectionObserver((entries) => {
+      near = entries[0].isIntersecting;
+      requestSteps();
+    }, { rootMargin: "300px 0px" }).observe(processPin);
+
+    const remeasure = () => { measureSteps(); requestSteps(); };
+    window.addEventListener("scroll", requestSteps, { passive: true });
+    window.addEventListener("resize", remeasure, { passive: true });
+    window.addEventListener("load", remeasure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+    measureSteps();
+    renderSteps();
+  }
 
   /* ---------- Active nav link ---------- */
   const navLinks = $$(".nav a");
@@ -533,13 +614,13 @@
         const lines = [
           `Name: ${name}`,
           `Phone: ${data.get("phone")}`,
-          `Email: ${data.get("email") || "-"}`,
-          `City or ZIP: ${data.get("city") || "-"}`,
+          `Email: ${data.get("email") || "not given"}`,
+          `City or ZIP: ${data.get("city") || "not given"}`,
           `Service: ${data.get("service")}`,
           "",
           String(data.get("message") || ""),
         ];
-        const subject = `Service request: ${data.get("service")} — ${name}`;
+        const subject = `Service request: ${data.get("service")} for ${name}`;
         window.location.href = `mailto:${cfg.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
         setStatus("Your email app should open with your request ready to send.", "success");
         return;

@@ -1,4 +1,4 @@
-# ProGas Propane — website
+# ProGas Propane website
 
 Marketing site for **ProGas Propane** (Glendale, CA · (424) 444-9990): propane tank sales and exchange,
 home and business delivery, tank storage cages, and patio heater sales, rentals, leasing and repair.
@@ -10,7 +10,7 @@ index.html              the page
 assets/css/styles.css   design tokens, layout, all animations
 assets/js/config.js     settings: phone, email, Google reviews API key, form endpoint
 assets/js/main.js       scroll reveals, counters, header, menu, photo viewer, FAQ, form
-assets/js/reviews.js    live Google reviews (loads only when configured)
+assets/js/reviews.js    review tiles (from config.js and/or live Google reviews)
 assets/img/             logo, favicons and photos (WebP, resized, EXIF/GPS removed)
 ```
 
@@ -30,7 +30,7 @@ To use a custom domain, add it under Settings → Pages, then update the `og:ima
 
 ## Images
 
-The logo, service photos and the "Our work" gallery come from the client's previous Webflow site
+The logo, most service photos and the "Our work" gallery come from the client's previous Webflow site
 (`pro-gas-propane-2`). They were resized into WebP files at several widths, and re-encoding removed the
 camera metadata (including GPS location) from the phone photos.
 
@@ -38,17 +38,33 @@ camera metadata (including GPS location) from the phone photos.
 | ------ | -------- |
 | `brand/` | Logo (from "Pro-Gas Logo WHITE.png"), favicons, social share image |
 | `hero/` | Night patio with heaters (IMG_5138) |
-| `services/` | The seven service photos used on the old site |
+| `services/` | Four service photos from the old site (tank sales, exchange, cages, heater sales) |
 | `work/` | Eight portfolio photos from the old site's Photos collection |
 | `feature/` | Heater flame, string-light patio (IMG_1555), burner flame, service-area map |
+
+Three service cards use free photos from Unsplash (Unsplash License: free for commercial use, no
+attribution required, credited here anyway). They load from Unsplash's image CDN at the size each
+screen needs, so there are no local copies:
+
+| Card | Photo |
+| ---- | ----- |
+| Home & business delivery | [Polina Kuzovkova](https://unsplash.com/photos/zxsh85YyplA) |
+| Heater rentals & leasing | [Jonathan Borba](https://unsplash.com/photos/ReniP9RoXmg) |
+| Heater repair | [Unsplash photo AlhRs3I8f7M](https://unsplash.com/photos/AlhRs3I8f7M) |
 
 To add a gallery photo, export it at 640, 1280 and 1600 px wide as WebP, put it in `assets/img/work/`,
 and copy one of the `<li class="work__item">` blocks in `index.html`. Give it a specific `alt` text.
 
-## Google reviews
+## Reviews
 
-Without setup, the Reviews section links to the business's Google Maps and Yelp pages. To show live
-Google reviews (star rating, review count and up to 5 recent reviews):
+Without setup, the Reviews section links to the business's Google Maps and Yelp pages. Reviews show as
+tiles (the first one large and dark) from either or both of these sources:
+
+**Pasted reviews.** Copy real reviews word for word from the Google or Yelp listing into `reviews` in
+`assets/js/config.js` (the format is described there). Only use reviews that really exist. As of
+October 2026 the Yelp listing (`progas-propane-glendale`) had no reviews yet.
+
+**Live Google reviews** (star rating, review count and up to 5 recent reviews, always current):
 
 1. In [Google Cloud Console](https://console.cloud.google.com/), create a project and enable
    **Maps JavaScript API** and **Places API (New)**.
@@ -89,8 +105,12 @@ NVDA) after content changes is good practice. The footer includes an accessibili
 - Only `transform` and `opacity` are animated, so animations run on the GPU and scrolling stays smooth.
 - Native scrolling is never hijacked (no smooth-scroll library).
 - On-scroll reveals use `IntersectionObserver`, so nothing runs on every scroll event.
-- Parallax, the hero fade-out, the process timeline and the progress bar use CSS scroll-driven animations
-  in Chrome, Edge and Safari 26+. Other browsers get a small rAF-throttled fallback.
+- Parallax, the hero fade-out and the progress bar use CSS scroll-driven animations in Chrome, Edge and
+  Safari 26+. Other browsers get a small rAF-throttled fallback.
+- "How it works" is scroll-linked: on screens at least 961 px wide and 700 px tall the section pins
+  (`position: sticky`) for a short scroll while a spark runs along the line and lights each step. On
+  phones the same thing happens down a vertical line, without pinning. With reduced motion, all four
+  steps simply show.
 - If you add new styles, don't put `overflow: hidden` on any ancestor of a `.parallax` element (it breaks
   scroll timelines). Use `overflow: clip` instead.
 
